@@ -21,6 +21,7 @@
     "@fastify/static": "7.0.4",
     "@formatjs/intl": "2.10.4",
     "@hotwired/turbo": "8.0.4",
+    "@mdx-js/esbuild": "^3.0.1",
     "@nanoweb/jsx": "0.0.19",
     "fastify": "4.28.1",
     "flat": "6.0.1",

@@ -1,7 +1,6 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
 import fp from 'fastify-plugin';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { User } from './plugins/auth';
 
 export const asyncLocalStorage = new AsyncLocalStorage();
 
@@ -25,5 +24,3 @@ export const useContext = <T extends RouteGenericInterface>() => asyncLocalStora
 export const useRequest = <T extends RouteGenericInterface>() => useContext<T>().request;
 
 export const useReply = () => useContext().reply;
-
-export const useUser = () => useRequest().user as User | undefined;
