@@ -1,8 +1,13 @@
-export default () => (
-  <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
+import useI18n from '~/i18n';
+export default () => {
+  const { addLocalePrefix, t } = useI18n();
+  return (
     <x-toggle
+      class="relative z-50 lg:hidden"
       triggerEvent="sideBar"
       closeOnBlur
+      persistent
+      preventScroll
       enter="transition-opacity ease-linear duration-300"
       enterFrom="opacity-0"
       enterTo="opacity-100"
@@ -26,7 +31,7 @@ export default () => (
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>
                       <a
-                        href="#"
+                        href={addLocalePrefix('/')}
                         class="group flex gap-x-3 rounded-md bg-indigo-700 p-2 text-sm font-semibold leading-6 text-white"
                       >
                         <svg
@@ -48,7 +53,7 @@ export default () => (
                     </li>
                     <li>
                       <a
-                        href="#"
+                        href={addLocalePrefix('/form')}
                         class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
                       >
                         <svg
@@ -196,5 +201,5 @@ export default () => (
         </div>
       </div>
     </x-toggle>
-  </div>
-);
+  );
+};
