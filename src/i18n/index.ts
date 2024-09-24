@@ -2,11 +2,10 @@ import { IntlShape, createIntl } from '@formatjs/intl';
 import { FastifyRequest } from 'fastify';
 import { flatten } from 'flat';
 import { useRequest } from '~/context';
-import * as de from './de.json';
 import * as en from './en.json';
 import { defaultRichTextElements, getRichTextElementRenderer } from './richTextElements';
 
-export const availableLocales = ['en', 'de'] as const;
+export const availableLocales = ['en'] as const;
 
 export type Locale = (typeof availableLocales)[number];
 
@@ -28,7 +27,7 @@ export const getLocaleAlternates = (request: FastifyRequest) => {
   ) as LocaleAlternates;
 };
 
-const messages: Record<Locale, Record<string, any>> = { en, de };
+const messages: Record<Locale, Record<string, any>> = { en };
 
 type I18n = {
   locale: Locale;

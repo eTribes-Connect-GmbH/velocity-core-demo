@@ -16,13 +16,13 @@ type A<T> = {
 export const component =
   <N extends string>(name: N) =>
   <T extends Record<string, any>>(c: SFC<A<T>>) => {
-    const componentClass = class extends HTMLElement {
+    const _component = class extends HTMLElement {
       static formAssociated = true;
       private disconnect: void | (() => void) = undefined;
       async connectedCallback() {
         const callback = await c(
           this,
-          new Proxy({} as T, { get: (_, prop: string) => this.getAttribute(prop) ?? this.hasAttribute(prop) })
+          new Proxy({} as T, { get: (_, prop: string) => this.getAttribute(prop) || this.hasAttribute(prop) })
         );
         if (callback) {
           this.disconnect = callback;
@@ -32,7 +32,7 @@ export const component =
         this.disconnect?.();
       }
     };
-    return { [name]: defineComponent(name, componentClass) } as unknown as Record<N, CustomElement<HTMLElement, T>>;
+    return { [name]: defineComponent(name, _component) } as unknown as Record<N, CustomElement<HTMLElement, T>>;
   };
 
 export const html = <T extends Element>(raw: TemplateStringsArray, ...exp: (string | number)[]): T =>

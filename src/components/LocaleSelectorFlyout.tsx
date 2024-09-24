@@ -1,8 +1,7 @@
-import langDeIcon from '~/assets/icons/langDe.svg';
 import langEnIcon from '~/assets/icons/langEn.svg';
 import useI18n, { Locale, LocaleAlternates } from '~/i18n';
 
-const langIconSrcs: Record<Locale, string> = { en: langEnIcon, de: langDeIcon };
+const langIconSrcs: Record<Locale, string> = { en: langEnIcon };
 
 const LocaleSelectorFlyout = ({ localeAlternates }: { localeAlternates: LocaleAlternates }) => {
   const { locale, formatDisplayName } = useI18n();
