@@ -14,7 +14,7 @@ const Component = component('x-dispatch')<{ eventName: string; action?: 'open' |
       self.dispatchEvent(new ActionEvent(attributes.eventName, attributes.action));
     }
   };
-  const root = self.shadowRoot ?? self.attachShadow({ mode: 'open' });
+  const root = self.shadowRoot || self.attachShadow({ mode: 'open' });
   const trigger = document.createElement('SLOT');
   trigger.addEventListener('click', dispatch);
   root.append(trigger);
