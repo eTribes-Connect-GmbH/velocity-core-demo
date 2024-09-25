@@ -36,8 +36,9 @@ const Layout = async ({ title, customLocaleAlternates, additionalScripts, childr
         {additionalScripts?.map(script => <script async src={script}></script>)}
       </head>
       <body class="h-full min-h-screen bg-gradient-to-br from-white to-blue-200">
+        <MobileSidebar />
         <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-          <x-dispatch eventName="sideBar">
+          <x-dispatch eventName="sideBar" action="open">
             <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
               <span class="sr-only">Open sidebar</span>
               <svg
@@ -65,7 +66,6 @@ const Layout = async ({ title, customLocaleAlternates, additionalScripts, childr
             </div>
           </div>
         </div>
-        <MobileSidebar />
         <DesktopSidebar />
         <div class="m-auto max-w-screen-lg p-6 sm:p-10">
           <main class="py-10">
