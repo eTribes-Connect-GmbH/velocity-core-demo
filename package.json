@@ -14,10 +14,8 @@
     "start": "node --enable-source-maps ./.build/production/index.js"
   },
   "dependencies": {
-    "@fastify/basic-auth": "5.1.1",
     "@fastify/cookie": "9.3.1",
     "@fastify/formbody": "7.4.0",
-    "@fastify/jwt": "8.0.1",
     "@fastify/static": "7.0.4",
     "@formatjs/intl": "2.10.4",
     "@hotwired/turbo": "8.0.4",

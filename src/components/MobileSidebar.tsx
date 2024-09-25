@@ -5,7 +5,6 @@ export default () => {
     <x-toggle
       class="relative z-50 lg:hidden"
       triggerEvent="sideBar"
-      closeOnBlur
       persistent
       preventScroll
       enter="transition-opacity ease-linear duration-300"
