@@ -1,4 +1,6 @@
-# Velocity Boilerplate
+# Velocity Core Docs
+
+This project contains the documentation of Velocity Core by Etribes and at the same time showcases how to use the Velocity Core tooling. This also serves the webpage at velocity-core.etribes.de
 
 ## Stack and libraries
 
