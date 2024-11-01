@@ -1,6 +1,6 @@
 import Layout from '~/components/Layout';
 import useI18n from '~/i18n';
-import Markdown from '../markdown/start.mdx';
+import Markdown from '../markdown/start.md';
 
 const StartPage = async () => {
   const { addLocalePrefix, t } = useI18n();
