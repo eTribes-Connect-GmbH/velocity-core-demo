@@ -23,7 +23,7 @@ type ToggleAttributes = Partial<TransitionAttributes> & {
 const persistentState = new Set<string>();
 
 const Toggle = component('x-toggle')<ToggleAttributes>((self, attributes) => {
-  const root: ShadowRoot = self.shadowRoot ?? self.attachShadow({ mode: 'open' });
+  const root: ShadowRoot = self.shadowRoot || self.attachShadow({ mode: 'open' });
   const persistentContainer = document.createElement('SLOT');
   persistentContainer.setAttribute('name', 'persistent');
   const defaultContainer = document.createElement('SLOT');
@@ -92,7 +92,7 @@ const Toggle = component('x-toggle')<ToggleAttributes>((self, attributes) => {
   window.addEventListener(attributes.triggerEvent, handleEvent);
   root.append(persistentContainer);
   root.append(defaultContainer);
-  if (attributes.openOnMount ?? (attributes.persistent && persistentState.has(attributes.triggerEvent))) {
+  if (attributes.openOnMount || (attributes.persistent && persistentState.has(attributes.triggerEvent))) {
     open();
   }
   return () => {
