@@ -3,7 +3,6 @@ import { fork, spawn } from 'node:child_process';
 import { existsSync, rmSync, watch } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import path from 'path';
-import mdx from '@mdx-js/esbuild';
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'production';
@@ -21,7 +20,7 @@ const commonOptions = {
   treeShaking: true,
   bundle: true,
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   },
   loader: {
     '.html': 'text',
@@ -34,8 +33,7 @@ const commonOptions = {
     '.woff': 'file',
     '.woff2': 'file',
     '.entry.js': 'file',
-    '.entry.css': 'file',
-    '.md': 'file'
+    '.entry.css': 'file'
   }
 };
 
@@ -72,7 +70,7 @@ const serverOptions = {
   publicPath: '/',
   outfile: destination,
   platform: 'node',
-  plugins: [mdx({ jsxImportSource: '@nanoweb/jsx' }), bundleMapping],
+  plugins: [bundleMapping],
   banner: { js: "import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);" }
 };
 

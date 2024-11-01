@@ -23,8 +23,6 @@ declare module '*.jpg';
 declare module '*.webp';
 declare module '*.ico';
 declare module '*.txt';
-declare module '*.md';
-declare module '*.mdx';
 declare module '*.html' {
   const content: string;
   export default content;
