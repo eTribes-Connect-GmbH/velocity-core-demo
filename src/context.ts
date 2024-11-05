@@ -2,7 +2,7 @@ import { FastifyPluginAsync, FastifyReply, FastifyRequest, RouteGenericInterface
 import fp from 'fastify-plugin';
 import { AsyncLocalStorage } from 'node:async_hooks';
 
-export const asyncLocalStorage = new AsyncLocalStorage();
+const asyncLocalStorage = new AsyncLocalStorage();
 
 type Context<T extends RouteGenericInterface> = {
   request: FastifyRequest<T>;

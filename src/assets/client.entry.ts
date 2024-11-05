@@ -1,9 +1,8 @@
 import '@hotwired/turbo';
 import 'bundle:tailwind.css';
+import 'highlight.js/styles/atom-one-dark.css';
 import './base.css';
-import './webcomponents/x-dispatch';
-import './webcomponents/x-toggle';
-
+import './components/x-toggle';
 import initLiveReload from './utilities/liveReload';
 
 if (process.env.NODE_ENV === 'development') {
