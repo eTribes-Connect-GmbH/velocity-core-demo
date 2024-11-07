@@ -26,25 +26,30 @@ const getPageSections = (tokens: TokensList) =>
     []
   );
 
-const parser = new Parser();
-parser.renderer.heading = ({ tokens, depth }) => {
-  const text = Parser.parseInline(tokens);
-  const slug = getSlug(text);
-  return `<h${depth} id="${slug}">${text}</h${depth}>`;
+const getCustomParser = () => {
+  const parser = new Parser();
+  parser.renderer.heading = ({ tokens, depth }) => {
+    const text = Parser.parseInline(tokens);
+    const slug = getSlug(text);
+    return `<h${depth} id="${slug}">${text}</h${depth}>`;
+  };
+  parser.renderer.code = ({ text, lang }) => {
+    if (lang && hljs.getLanguage(lang)) {
+      return `<pre><code className="language-${lang}">${hljs.highlight(text, { language: lang }).value}</code></pre>`;
+    } else {
+      return `<pre><code>${text}</code></pre>`;
+    }
+  };
+  return parser;
 };
-parser.renderer.code = ({ text, lang }) => {
-  if (lang && hljs.getLanguage(lang)) {
-    return `<pre><code className="language-${lang}">${hljs.highlight(text, { language: lang }).value}</code></pre>`;
-  } else {
-    return `<pre><code>${text}</code></pre>`;
-  }
-};
+
+const customParser = getCustomParser();
 
 const renderMarkdown = (markdown: string) => {
   const tokens = Lexer.lex(markdown);
   return {
     pageSections: getPageSections(tokens),
-    htmlBody: parser.parse(tokens)
+    htmlBody: customParser.parse(tokens)
   };
 };
 
