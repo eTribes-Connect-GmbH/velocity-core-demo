@@ -1,3 +1,8 @@
+---
+title: Form & Input Validation
+section: Advanced Guides
+---
+
 In modern web applications, user input plays a crucial role in the overall functionality and user experience. Ensuring that input is valid and correctly formatted is essential for maintaining data integrity and providing a seamless experience. In Velocity Core, we provide a comprehensive approach to **Form & Input Validation** that leverages powerful features to validate user input effectively and efficiently. This guide will explore the concepts of form validation, how to implement it in your applications, and best practices for ensuring a smooth validation process.
 
 ## Understanding Form & Input Validation

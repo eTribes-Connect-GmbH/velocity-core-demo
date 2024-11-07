@@ -1,3 +1,8 @@
+---
+title: Context
+section: Core Concepts
+---
+
 In Velocity Core, the concept of **Context** plays a crucial role in managing state and facilitating communication between different components of your application. Context allows you to pass data and functionality throughout your component tree without the need for prop drilling, thereby enhancing the maintainability and scalability of your codebase. This guide will explore the significance of context, how to create and use it effectively, and best practices to follow.
 
 ## Understanding Context

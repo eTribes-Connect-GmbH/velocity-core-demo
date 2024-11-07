@@ -14,29 +14,31 @@ const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const MobileNavigation = () => (
-  <x-toggle>
-    <button type="button" className="relative" aria-label="Open navigation" data-toggle-button>
-      <MenuIcon class="h-6 w-6 stroke-slate-500" />
-    </button>
-    <div class="hidden" data-toggle-content>
-      <div
-        className="fixed inset-0 z-50 flex items-start overflow-y-auto bg-slate-900/50 pr-10 backdrop-blur lg:hidden"
-        aria-label="Navigation"
-      >
-        <div className="min-h-full w-full max-w-xs bg-white px-4 pb-12 pt-5 sm:px-6 dark:bg-slate-900">
-          <div className="flex items-center">
-            <button type="button" aria-label="Close navigation">
-              <CloseIcon class="h-6 w-6 stroke-slate-500" data-toggle-button />
-            </button>
-            <a href="/" className="ml-6" aria-label="Home page">
-              <Logomark class="fill-velocity-700 dark:fill-velocity-100 h-9 w-9 lg:hidden" />
-            </a>
+  <x-class-toggle toggleClass="hidden">
+    <div className="flex">
+      <button type="button" className="relative" aria-label="Open navigation" data-class-toggle-trigger>
+        <MenuIcon class="h-6 w-6 stroke-slate-500" />
+      </button>
+      <div className="hidden" data-class-toggle-target>
+        <div
+          className="fixed inset-0 z-50 flex items-start overflow-y-auto bg-slate-900/50 pr-10 backdrop-blur lg:hidden"
+          aria-label="Navigation"
+        >
+          <div className="min-h-full w-full max-w-xs bg-white px-4 pb-12 pt-5 sm:px-6 dark:bg-slate-900">
+            <div className="flex items-center">
+              <button type="button" aria-label="Close navigation" data-class-toggle-trigger>
+                <CloseIcon class="h-6 w-6 stroke-slate-500" />
+              </button>
+              <a href="/" className="ml-6" aria-label="Home page">
+                <Logomark class="h-9 w-9" />
+              </a>
+            </div>
+            <Navigation className="mt-5 px-1" />
           </div>
-          <Navigation className="mt-5 px-1" />
         </div>
       </div>
     </div>
-  </x-toggle>
+  </x-class-toggle>
 );
 
 export default MobileNavigation;
