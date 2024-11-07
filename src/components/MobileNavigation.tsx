@@ -19,11 +19,10 @@ const MobileNavigation = () => (
       <button type="button" className="relative" aria-label="Open navigation" data-class-toggle-trigger>
         <MenuIcon class="h-6 w-6 stroke-slate-500" />
       </button>
-      <div className="hidden">
+      <div className="hidden" data-class-toggle-target>
         <div
-          className="fixed inset-0 z-50 hidden items-start overflow-y-auto bg-slate-900/50 pr-10 backdrop-blur lg:hidden"
+          className="fixed inset-0 z-50 flex items-start overflow-y-auto bg-slate-900/50 pr-10 backdrop-blur lg:hidden"
           aria-label="Navigation"
-          data-class-toggle-target
         >
           <div className="min-h-full w-full max-w-xs bg-white px-4 pb-12 pt-5 sm:px-6 dark:bg-slate-900">
             <div className="flex items-center">

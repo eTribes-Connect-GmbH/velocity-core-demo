@@ -1,17 +1,17 @@
 import { component } from '../utilities/webComponents';
 
 const ClassToggle = component('x-class-toggle')<{ toggleClass: string }>((self, { toggleClass }) => {
-  const buttons = self.querySelectorAll('[data-class-toggle-trigger]');
-  const content = self.querySelector('[data-class-toggle-target]')!;
+  const triggers = self.querySelectorAll('[data-class-toggle-trigger]');
+  const target = self.querySelector('[data-class-toggle-target]')!;
   const onClick = () => {
-    if (content.classList.contains(toggleClass)) {
-      content.classList.remove(toggleClass);
+    if (target.classList.contains(toggleClass)) {
+      target.classList.remove(toggleClass);
     } else {
-      content.classList.add(toggleClass);
+      target.classList.add(toggleClass);
     }
   };
-  buttons.forEach(button => button.addEventListener('click', onClick));
-  return () => buttons.forEach(button => button.removeEventListener('click', onClick));
+  triggers.forEach(button => button.addEventListener('click', onClick));
+  return () => triggers.forEach(button => button.removeEventListener('click', onClick));
 });
 
 declare global {
