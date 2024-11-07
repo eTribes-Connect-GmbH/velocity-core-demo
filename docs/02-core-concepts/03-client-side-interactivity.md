@@ -1,3 +1,8 @@
+---
+title: Client-Side Interactivity
+section: Core Concepts
+---
+
 In the world of modern web development, delivering a seamless and interactive user experience is paramount. Velocity Core embraces the concept of **Client-Side Interactivity** through an innovative architectural approach known as **Island Architecture**. This method leverages the power of web components to create isolated, interactive units within a predominantly server-rendered page, enhancing both performance and usability. In this guide, we’ll explore the fundamentals of client-side interactivity in Velocity Core, how Island Architecture works, and the benefits it brings to your web applications.
 
 ## Understanding Client-Side Interactivity
@@ -19,14 +24,14 @@ In Velocity Core, you can create web components to serve as interactive islands.
 ```javascript
 // src/components/InteractiveButton.js
 class InteractiveButton extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.render();
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.render();
+  }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
             <style>
                 button {
                     padding: 10px;
@@ -39,17 +44,15 @@ class InteractiveButton extends HTMLElement {
             </style>
             <button id="interactiveButton">Click Me!</button>
         `;
-    }
+  }
 
-    connectedCallback() {
-        this.shadowRoot
-            .getElementById('interactiveButton')
-            .addEventListener('click', () => this.handleClick());
-    }
+  connectedCallback() {
+    this.shadowRoot.getElementById('interactiveButton').addEventListener('click', () => this.handleClick());
+  }
 
-    handleClick() {
-        alert('Button was clicked!');
-    }
+  handleClick() {
+    alert('Button was clicked!');
+  }
 }
 
 // Define the new element
@@ -62,20 +65,20 @@ Once you have created your web components, you can embed them into your server-r
 
 ```html
 <!-- public/index.html -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Island Architecture Example</title>
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <h1>Welcome to Velocity Core</h1>
-        <interactive-button></interactive-button>
+      <h1>Welcome to Velocity Core</h1>
+      <interactive-button></interactive-button>
     </div>
     <script src="../dist/bundle.js" type="module"></script>
-</body>
+  </body>
 </html>
 ```
 

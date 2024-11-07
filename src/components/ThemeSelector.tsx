@@ -1,3 +1,5 @@
+import { useTheme } from '~/context';
+
 const LightIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg aria-hidden="true" viewBox="0 0 16 16" {...props}>
     <path
@@ -29,53 +31,57 @@ const SystemIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const themes = [
-  { name: 'Light', value: 'light', icon: LightIcon },
-  { name: 'Dark', value: 'dark', icon: DarkIcon },
-  { name: 'System', value: 'system', icon: SystemIcon }
+  { name: 'Light', key: 'light', icon: LightIcon },
+  { name: 'Dark', key: 'dark', icon: DarkIcon },
+  { name: 'System', key: 'system', icon: SystemIcon }
 ];
 
 const ThemeSelector = ({ className }: { className?: string }) => {
-  const selectedValue = 'light' as 'light' | 'dark' | 'system';
+  const activeTheme = useTheme();
   return (
-    <x-toggle>
+    <x-class-toggle toggleClass="hidden">
       <div className={className}>
         <label className="sr-only">Theme</label>
         <button
           className="flex h-6 w-6 items-center justify-center rounded-lg shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5"
           aria-label="Theme"
-          data-toggle-button
+          data-class-toggle-trigger
         >
           <LightIcon
-            class={['h-4 w-4 dark:hidden', selectedValue === 'system' ? 'fill-slate-400' : 'fill-velocity-700']}
+            class={['h-4 w-4 dark:hidden', activeTheme === 'system' ? 'fill-slate-400' : 'fill-velocity-700']}
           />
           <DarkIcon
-            class={['hidden h-4 w-4 dark:block', selectedValue === 'system' ? 'fill-slate-400' : 'fill-velocity-700']}
+            class={['hidden h-4 w-4 dark:block', activeTheme === 'system' ? 'fill-slate-400' : 'fill-velocity-700']}
           />
         </button>
-        <div className="hidden" data-toggle-content>
+        <div className="hidden" data-class-toggle-target>
           <div className="absolute left-1/2 top-full mt-3 w-36 -translate-x-1/2 space-y-1 rounded-xl bg-white p-3 text-sm font-medium shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-800 dark:ring-white/5">
-            {themes.map(({ name, value, icon: Icon }) => {
-              const isSelected = selectedValue === value;
+            {themes.map(({ name, key, icon: Icon }) => {
+              const isActive = activeTheme === key;
               return (
-                <div
-                  className={[
-                    'flex cursor-pointer select-none items-center rounded-[0.625rem] p-1',
-                    isSelected ? 'text-velocity-700' : 'text-slate-700 dark:text-slate-400'
-                  ]}
-                >
-                  <div className="rounded-md bg-white p-1 shadow ring-1 ring-slate-900/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5">
-                    <Icon
-                      class={['h-4 w-4', isSelected ? 'fill-velocity-700 dark:fill-velocity-700' : 'fill-slate-400']}
-                    />
+                <x-theme-button theme={key}>
+                  <div
+                    className={[
+                      'flex cursor-pointer select-none items-center rounded-[0.625rem] p-1 hover:bg-slate-100 dark:hover:bg-slate-900/40',
+                      isActive
+                        ? 'text-velocity-700'
+                        : 'text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                    ]}
+                  >
+                    <div className="rounded-md bg-white p-1 shadow ring-1 ring-slate-900/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5">
+                      <Icon
+                        class={['h-4 w-4', isActive ? 'fill-velocity-700 dark:fill-velocity-700' : 'fill-slate-400']}
+                      />
+                    </div>
+                    <div className="ml-3">{name}</div>
                   </div>
-                  <div className="ml-3">{name}</div>
-                </div>
+                </x-theme-button>
               );
             })}
           </div>
         </div>
       </div>
-    </x-toggle>
+    </x-class-toggle>
   );
 };
 

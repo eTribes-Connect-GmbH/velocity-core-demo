@@ -24,3 +24,5 @@ export const useContext = <T extends RouteGenericInterface>() => asyncLocalStora
 export const useRequest = <T extends RouteGenericInterface>() => useContext<T>().request;
 
 export const useReply = () => useContext().reply;
+
+export const useTheme = () => useRequest().cookies.theme;

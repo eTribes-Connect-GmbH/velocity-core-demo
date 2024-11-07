@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify';
-import { docs } from '~/docs';
+import docs from '~/docs';
 import DocPage from '~/pages/DocPage';
 
 const pages: FastifyPluginAsync = async server => {

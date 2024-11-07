@@ -1,6 +1,7 @@
 import styles from 'bundle:client.entry.css';
 import client from 'bundle:client.entry.js';
 import favicon from '~/assets/favicon.ico';
+import { useTheme } from '~/context';
 import Hero from './Hero';
 import Logo, { Logomark } from './Logo';
 import MobileNavigation from './MobileNavigation';
@@ -15,14 +16,14 @@ const GitHubIcon = (props: SVGProps<SVGSVGElement>) => (
 );
 
 const Header = () => (
-  <header className="sticky top-0 z-50 flex flex-none flex-wrap items-center justify-between bg-white px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 sm:px-6 lg:px-8 dark:bg-transparent dark:shadow-none">
-    <div className="mr-6 flex lg:hidden">
+  <header className="sticky top-0 z-50 flex flex-none flex-wrap items-center justify-between bg-white px-4 py-5 shadow-md shadow-slate-900/5 sm:px-6 lg:px-8 dark:bg-slate-900/75 dark:shadow-none">
+    <div className="mr-6 lg:hidden">
       <MobileNavigation />
     </div>
     <div className="relative flex flex-grow basis-0 items-center">
       <a href="/" aria-label="Home page">
-        <Logomark class="fill-velocity-700 dark:fill-velocity-100 h-9 w-9 lg:hidden" />
-        <Logo class="fill-velocity-700 dark:fill-velocity-100 hidden h-9 w-auto lg:block" />
+        <Logomark class="h-9 w-9 fill-velocity-700 lg:hidden dark:fill-velocity-100" />
+        <Logo class="hidden h-9 w-auto fill-velocity-700 lg:block dark:fill-velocity-100" />
       </a>
     </div>
     <div className="-my-5 mr-6 sm:mr-8 md:mr-0">
@@ -48,36 +49,39 @@ type LayoutProps = {
   children: JSX.Element;
 };
 
-const Layout = async ({ title, isHomePage, children }: LayoutProps) => (
-  <html lang="en" className="h-full antialiased">
-    <head>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="turbo-refresh-method" content="morph" />
-      <meta name="turbo-refresh-scroll" content="preserve" />
-      <title>{[title, 'Velocity'].filter(Boolean).join(' | ')}</title>
-      <link rel="icon" href={favicon} />
-      <link rel="stylesheet" href={styles} />
-      <script async type="module" src={client}></script>
-    </head>
-    <body class="flex min-h-full bg-white dark:bg-slate-900">
-      <div className="flex w-full flex-col">
-        <Header />
-        {isHomePage && <Hero />}
-        <div className="max-w-8xl relative mx-auto flex w-full flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">
-          <div className="hidden lg:relative lg:block lg:flex-none">
-            <div className="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden" />
-            <div className="absolute bottom-0 right-0 top-16 hidden h-12 w-px bg-gradient-to-t from-slate-800 dark:block" />
-            <div className="absolute bottom-0 right-0 top-28 hidden w-px bg-slate-800 dark:block" />
-            <div className="sticky top-[4.75rem] -ml-0.5 h-[calc(100vh-4.75rem)] w-64 overflow-y-auto overflow-x-hidden py-16 pl-0.5 pr-8 xl:w-72 xl:pr-16">
-              <Navigation />
+const Layout = async ({ title, isHomePage, children }: LayoutProps) => {
+  const theme = useTheme();
+  return (
+    <html lang="en" className="h-full antialiased">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="turbo-refresh-method" content="morph" />
+        <meta name="turbo-refresh-scroll" content="preserve" />
+        <title>{[title, 'Velocity'].filter(Boolean).join(' | ')}</title>
+        <link rel="icon" href={favicon} />
+        <link rel="stylesheet" href={styles} />
+        <script async type="module" src={client}></script>
+      </head>
+      <body className={['flex min-h-full bg-white dark:bg-slate-900', theme]}>
+        <div className="flex w-full flex-col">
+          <Header />
+          {isHomePage && <Hero />}
+          <div className="mx-auto flex w-full max-w-8xl flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">
+            <div className="hidden lg:relative lg:block lg:flex-none">
+              <div className="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden" />
+              <div className="absolute bottom-0 right-0 top-16 hidden h-12 w-px bg-gradient-to-t from-slate-800 dark:block" />
+              <div className="absolute bottom-0 right-0 top-28 hidden w-px bg-slate-800 dark:block" />
+              <div className="sticky top-[4.75rem] -ml-0.5 h-[calc(100vh-4.75rem)] w-64 overflow-y-auto overflow-x-hidden py-16 pl-0.5 pr-8 xl:w-72 xl:pr-16">
+                <Navigation />
+              </div>
             </div>
+            {children}
           </div>
-          {children}
         </div>
-      </div>
-    </body>
-  </html>
-);
+      </body>
+    </html>
+  );
+};
 
 export default Layout;

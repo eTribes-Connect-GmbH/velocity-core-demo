@@ -1,3 +1,8 @@
+---
+title: Authentication
+section: Advanced Guides
+---
+
 Authentication is a fundamental aspect of web application security, ensuring that only authorized users can access specific features and data. In Velocity Core, we provide flexible and robust authentication options, allowing developers to implement custom authentication solutions or integrate with established protocols like OAuth 2.0 and OpenID Connect (OIDC). This guide will explore the different authentication methods available in Velocity Core, their implementation, and best practices for securing user access.
 
 ## Understanding Authentication

@@ -1,3 +1,8 @@
+---
+title: Philosophy
+section: Introduction
+---
+
 ## Embracing Simplicity in Complexity
 
 In an era where frontend development complexity has skyrocketed, **Velocity Core** emerges as a lightweight solution, emphasizing simplicity and efficiency in building high-performance web applications. The current landscape is characterized by an overwhelming reliance on heavy JavaScript frameworks such as React, Vue.js, and Angular. While these frameworks are powerful, they cater primarily to highly interactive, long-running applications, often detracting from user experience—particularly in a time when mobile web traffic surpasses that of desktops.

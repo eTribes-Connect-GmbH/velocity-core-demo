@@ -1,3 +1,8 @@
+---
+title: Pages
+section: Core Concepts
+---
+
 In Velocity Core, the concept of **Pages** serves as a fundamental building block for creating dynamic and engaging web applications. A page in Velocity Core is not just a static HTML document; it represents a rich, interactive component that can incorporate various elements, including components, layouts, and routing functionalities. This approach allows developers to structure their applications intuitively while providing a seamless user experience.
 
 ## Understanding Pages
@@ -28,12 +33,12 @@ Create a new JavaScript file in the `src/pages` directory. For example, to creat
 import React from 'react';
 
 const About = () => {
-    return (
-        <div>
-            <h1>About Us</h1>
-            <p>Welcome to the About page of our Velocity Core application.</p>
-        </div>
-    );
+  return (
+    <div>
+      <h1>About Us</h1>
+      <p>Welcome to the About page of our Velocity Core application.</p>
+    </div>
+  );
 };
 
 export default About;
@@ -50,14 +55,14 @@ import Home from './pages/Home';
 import About from './pages/About';
 
 const App = () => {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/about" component={About} />
-            </Switch>
-        </Router>
-    );
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/about" component={About} />
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;
@@ -72,14 +77,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
-    return (
-        <div>
-            <h1>Welcome to My Velocity App!</h1>
-            <p>
-                <Link to="/about">Learn more about us</Link>
-            </p>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Welcome to My Velocity App!</h1>
+      <p>
+        <Link to="/about">Learn more about us</Link>
+      </p>
+    </div>
+  );
 };
 
 export default Home;
