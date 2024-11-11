@@ -1,3 +1,8 @@
+---
+title: Getting Started
+section: Introduction
+---
+
 Welcome to Velocity Core! This guide will help you set up your development environment and create your first web application using this lightweight framework. Let’s dive in!
 
 ## Prerequisites
@@ -58,17 +63,17 @@ Before you begin, ensure you have the following installed on your machine:
    Open `public/index.html` in your code editor and add the following basic HTML structure:
 
    ```html
-   <!DOCTYPE html>
+   <!doctype html>
    <html lang="en">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <head>
+       <meta charset="UTF-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
        <title>My Velocity App</title>
-   </head>
-   <body>
+     </head>
+     <body>
        <div id="app"></div>
        <script src="../dist/bundle.js"></script>
-   </body>
+     </body>
    </html>
    ```
 
@@ -80,12 +85,12 @@ Before you begin, ensure you have the following installed on your machine:
    import React from 'react';
 
    const Home = () => {
-       return (
-           <div>
-               <h1>Welcome to My Velocity App!</h1>
-               <p>This is a lightweight application using Velocity Core.</p>
-           </div>
-       );
+     return (
+       <div>
+         <h1>Welcome to My Velocity App!</h1>
+         <p>This is a lightweight application using Velocity Core.</p>
+       </div>
+     );
    };
 
    export default Home;
