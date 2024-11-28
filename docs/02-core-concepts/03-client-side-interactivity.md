@@ -3,101 +3,86 @@ title: Client-Side Interactivity
 section: Core Concepts
 ---
 
-In the world of modern web development, delivering a seamless and interactive user experience is paramount. Velocity Core embraces the concept of **Client-Side Interactivity** through an innovative architectural approach known as **Island Architecture**. This method leverages the power of web components to create isolated, interactive units within a predominantly server-rendered page, enhancing both performance and usability. In this guide, we’ll explore the fundamentals of client-side interactivity in Velocity Core, how Island Architecture works, and the benefits it brings to your web applications.
+Velocity Core leverages the **Islands Architecture** to minimize the amount of JavaScript code sent to the client. This reduces initial load times especially on low bandwidth connections. With Velocity Core, developers are encouraged to handle as much logic as possible server-side or through semantic HTML elements (like `<details>`) and native CSS features (like `:hover`), limiting the use of client-side JavaScript to only what is absolutely necessary. When JavaScript is required, Velocity Core promotes the use of **Web Components** for encapsulated, reusable, and highly performant client-side interactions.
 
-## Understanding Client-Side Interactivity
+## Creating a Web Component
 
-### Definition
+Velocity Core provides a simple utility that makes writing Web Components less verbose. The `component` helper (in `src/assets/utilities/webComponents.ts`) enables you to create Web Components with minimal setup and clear, maintainable code.
 
-**Client-Side Interactivity** refers to the dynamic and responsive elements of a web application that allow users to interact with content without requiring a full page reload. In Velocity Core, this interactivity is achieved through the use of web components, which encapsulate functionality and presentation into reusable elements. These components can respond to user input, update dynamically, and maintain their state independently, providing a fluid experience that enhances user engagement.
+Here's an example of how to create a simple Web Component using the `component` helper:
 
-### The Role of Island Architecture
+```ts
+import { component } from '../utilities/webComponents';
 
-**Island Architecture** is a design paradigm that optimizes how interactivity is implemented in web applications. Instead of treating an entire page as a single interactive unit (as seen in traditional single-page applications), Island Architecture allows developers to embed discrete islands of interactivity within a mostly static server-rendered page. This means only specific components require client-side JavaScript, reducing the overall load on the browser and improving performance.
+const ClassToggle = component('x-class-toggle')<{ toggleClass: string }>((self, { toggleClass }) => {
+  const triggers = self.querySelectorAll('[data-class-toggle-trigger]');
+  const target = self.querySelector('[data-class-toggle-target]')!;
+  const onClick = () => {
+    if (target.classList.contains(toggleClass)) {
+      target.classList.remove(toggleClass);
+    } else {
+      target.classList.add(toggleClass);
+    }
+  };
+  triggers.forEach(button => button.addEventListener('click', onClick));
+  return () => triggers.forEach(button => button.removeEventListener('click', onClick));
+});
+```
 
-## Implementing Island Architecture with Web Components
+- **`component('x-class-toggle')`**: This function call creates a new custom element with the tag name `x-class-toggle`.
+- **`<{ toggleClass: string }>`**: This type argument defines the expected properties that the component can receive. In this case, `toggleClass` is a string that specifies the class to toggle on the target element.
+- **The callback function**: This function is executed when the component is initialized. It receives `self` (the custom element) and `props` (the properties passed to the component) as arguments.
+- **Event Handling**: Inside the callback function, event listeners are added to the triggers to handle the toggle functionality, and a cleanup function is returned to remove those event listeners when the component is unmounted.
 
-### Step 1: Create Web Components
+### Adding Type Declarations
 
-In Velocity Core, you can create web components to serve as interactive islands. Each component is a self-contained unit with its own HTML, CSS, and JavaScript, enabling you to build reusable and maintainable code. Here’s a simple example of a web component that functions as an interactive button:
+To ensure excellent TypeScript support when using your custom Web Component in JSX, include the following declaration at the bottom of your component file:
 
-```javascript
-// src/components/InteractiveButton.js
-class InteractiveButton extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.render();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
-            <style>
-                button {
-                    padding: 10px;
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-            </style>
-            <button id="interactiveButton">Click Me!</button>
-        `;
-  }
-
-  connectedCallback() {
-    this.shadowRoot.getElementById('interactiveButton').addEventListener('click', () => this.handleClick());
-  }
-
-  handleClick() {
-    alert('Button was clicked!');
+```ts
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    interface IntrinsicElements extends Id<typeof ClassToggle> {}
   }
 }
-
-// Define the new element
-customElements.define('interactive-button', InteractiveButton);
 ```
 
-### Step 2: Integrate Components into Your Pages
+This step adds type definitions that allow your custom component to be recognized within JSX, giving you full type safety and autocompletion in your editor.
 
-Once you have created your web components, you can embed them into your server-rendered HTML. Here’s how to use the `InteractiveButton` component in your main application page:
+### Registering Your Component
 
-```html
-<!-- public/index.html -->
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Island Architecture Example</title>
-  </head>
-  <body>
-    <div>
-      <h1>Welcome to Velocity Core</h1>
-      <interactive-button></interactive-button>
+For your component to be included in the client-side JavaScript bundle, you need to import it at the top of the `src/assets/client.entry.ts` file:
+
+```ts
+import './components/x-class-toggle';
+```
+
+### Using Your Web Component in JSX
+
+You can then use your Web Component in your server-rendered JSX components like so:
+
+```tsx
+const SimpleToggle = () => (
+  <x-class-toggle toggleClass="hidden">
+    <button data-class-toggle-trigger>Toggle Content</button>
+    <div className="hidden" data-class-toggle-target>
+      This content is toggled.
     </div>
-    <script src="../dist/bundle.js" type="module"></script>
-  </body>
-</html>
+  </x-class-toggle>
+);
 ```
 
-### Step 3: Optimize Performance
+## CSS-Only Interactivity
 
-With Island Architecture, the initial page load is fast because the bulk of the content is server-rendered. Client-side interactivity is only activated for the specific web components when they are needed. This results in a more efficient loading experience, particularly on mobile devices where performance is crucial.
+For simple UI state, sometimes it’s enough to use HTML and CSS, e.g. using a hidden checkbox. With Tailwind’s `peer` and `peer-checked`, you can build a no-JS toggle like this:
 
-## Benefits of Client-Side Interactivity and Island Architecture
-
-1. **Improved Performance**: By isolating interactive elements, your application can serve static content quickly while deferring the loading of JavaScript to only those components that require it.
-
-2. **Enhanced User Experience**: Users can interact with individual components without experiencing full-page reloads, leading to a smoother and more responsive experience.
-
-3. **Modularity and Reusability**: Web components promote modularity, allowing developers to create reusable components that can be shared across different parts of the application or even across different projects.
-
-4. **Easier Maintenance**: With distinct components handling their own state and behavior, managing and updating your application becomes more straightforward, reducing complexity and potential bugs.
-
-5. **Progressive Enhancement**: Island Architecture supports progressive enhancement strategies, allowing you to serve a fully functional experience to users regardless of their browser capabilities.
-
-## Conclusion
-
-**Client-Side Interactivity** through Island Architecture is a cornerstone of Velocity Core, enabling developers to create engaging, efficient, and responsive web applications. By leveraging web components to encapsulate interactivity, this approach allows for significant performance improvements and enhances the overall user experience. Embracing this architectural paradigm equips developers with the tools to build modern applications that meet the demands of today’s users while maintaining simplicity and clarity in their codebase. With Velocity Core, you can harness the full potential of client-side interactivity and deliver exceptional web experiences.
+```tsx
+const SimpleToggle = () => (
+  <div>
+    <input type="checkbox" id="toggle" class="peer hidden" />
+    <label for="toggle">Toggle Content</label>
+    <div class="hidden peer-checked:block">This content is toggled.</div>
+  </div>
+);
+```

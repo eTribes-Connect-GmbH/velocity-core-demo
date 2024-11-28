@@ -3,145 +3,82 @@ title: Form & Input Validation
 section: Advanced Guides
 ---
 
-In modern web applications, user input plays a crucial role in the overall functionality and user experience. Ensuring that input is valid and correctly formatted is essential for maintaining data integrity and providing a seamless experience. In Velocity Core, we provide a comprehensive approach to **Form & Input Validation** that leverages powerful features to validate user input effectively and efficiently. This guide will explore the concepts of form validation, how to implement it in your applications, and best practices for ensuring a smooth validation process.
+Form and input validation are essential for ensuring data integrity, improving user experience, and maintaining application security. Validation should occur on both the **client-side** (for immediate feedback) and the **server-side** (for security and data consistency).
 
-## Understanding Form & Input Validation
+## Client-Side Validation
 
-### Definition
+### Native HTML Form Validation
 
-**Form and input validation** is the process of checking user input against predefined criteria to ensure that it meets specific requirements before processing or submitting the data. This can include checking for correct data types, mandatory fields, length restrictions, format, and more. Effective validation helps prevent errors, improves data quality, and enhances the user experience by providing immediate feedback.
+For basic client-side validation, HTML5 offers built-in features that work out-of-the-box. These include attributes such as `required`, `type`, `pattern`, and `minlength`/`maxlength`. Using native form validation is sufficient for most use cases.
 
-### Importance of Input Validation
-
-1. **Data Integrity**: Ensures that only valid data is submitted, reducing the risk of errors and maintaining the integrity of your database.
-
-2. **Enhanced Security**: Protects against common security vulnerabilities, such as SQL injection and cross-site scripting (XSS), by validating and sanitizing input.
-
-3. **Improved User Experience**: Providing real-time feedback and guidance to users during form completion helps reduce frustration and improve overall satisfaction.
-
-## Implementing Form & Input Validation in Velocity Core
-
-Velocity Core provides an easy and intuitive way to implement form and input validation using a combination of built-in hooks and libraries. Here’s how to set up validation in your application.
-
-### Step 1: Set Up Your Form
-
-First, create a form component that will collect user input. You can utilize standard HTML elements for this purpose. Here’s an example of a simple registration form:
-
-```javascript
-import React, { useState } from 'react';
-
-const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    // Validation logic will be implemented here
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-      </label>
-      <label>
-        Email:
-        <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-      </label>
-      <label>
-        Password:
-        <input type="password" name="password" value={formData.password} onChange={handleChange} required />
-      </label>
-      <button type="submit">Register</button>
-    </form>
-  );
-};
-
-export default RegistrationForm;
+```html
+<form>
+  <label for="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" required minlength="2" maxlength="50" />
+  <label for="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" required minlength="2" maxlength="50" />
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required />
+  <button type="submit">Submit</button>
+</form>
 ```
 
-### Step 2: Implement Validation Logic
+In this example:
 
-Next, add validation logic to your form submission handler. This can include checks for the validity of each input field. Here’s how to enhance the `handleSubmit` function with validation:
+- The `type="email"` ensures the input is a valid email format.
+- The `required` attribute prevents the form from being submitted if the input is empty.
 
-```javascript
-const handleSubmit = e => {
-  e.preventDefault();
+When the user submits the form, the browser automatically validates it and provides feedback without requiring custom JavaScript.
 
-  // Input validation
-  const errors = {};
-  if (formData.username.length < 3) {
-    errors.username = 'Username must be at least 3 characters long.';
-  }
-  if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    errors.email = 'Email is invalid.';
-  }
-  if (formData.password.length < 6) {
-    errors.password = 'Password must be at least 6 characters long.';
-  }
+### Advanced Styling
 
-  if (Object.keys(errors).length > 0) {
-    console.log('Validation errors:', errors);
-    return;
-  }
+To enhance the styling of validation states, use the `:user-invalid` pseudo-class, which applies styles to invalid form controls.
 
-  // If validation passes, proceed with form submission (e.g., API call)
-  console.log('Form data submitted:', formData);
+Here’s an enhanced version using the `:user-invalid` pseudo-class for custom styling and showing/hiding an error message:
+
+```tsx
+const Input = ({ name, label, ...rest }: InputProps) => (
+  <>
+    <input
+      name={name}
+      id={name}
+      placeholder={label}
+      class="peer w-full rounded border border-slate-200 px-3 py-2 placeholder-slate-300 [&:user-invalid]:border-red-500"
+      {...rest}
+    />
+    <div class="mt-1 hidden text-sm text-red-500 peer-[&:user-invalid]:block">{label} is invalid</div>
+  </>
+);
+```
+
+This approach combines native validation with modern styling, giving users instant feedback while maintaining a clean UI.
+
+## Server-Side Validation
+
+While client-side validation provides a great user experience, it is not secure because users can bypass it (e.g., by disabling JavaScript or tampering with requests). **Server-side validation** is essential to:
+
+- Ensure data integrity.
+- Prevent malicious input.
+- Handle edge cases not covered by client-side validation.
+
+For robust server-side validation, use Fastify's built-in **JSON Schema** validation. JSON Schema allows you to define and enforce strict validation rules for incoming data.
+
+```ts
+const requestBodySchema = {
+  type: 'object',
+  properties: {
+    firstName: { type: 'string', minLength: 2, maxLength: 50 },
+    lastName: { type: 'string', minLength: 2, maxLength: 50 },
+    email: { type: 'string', format: 'email' }
+  },
+  required: ['firstName', 'lastName', 'email']
 };
 ```
 
-### Step 3: Provide User Feedback
+In `src/plugins/pages.tsx` you can add the JSON Schema to the route registration:
 
-To enhance the user experience, display error messages next to the relevant input fields. You can update your form component to include state for error messages and render them conditionally:
-
-```javascript
-const [errors, setErrors] = useState({});
-
-const handleSubmit = e => {
-  e.preventDefault();
-  const errors = {};
-  if (formData.username.length < 3) {
-    errors.username = 'Username must be at least 3 characters long.';
-  }
-  // Additional validation logic...
-  setErrors(errors);
-
-  if (Object.keys(errors).length > 0) {
-    return;
-  }
-
-  console.log('Form data submitted:', formData);
-};
-
-// In the JSX, display errors next to the input fields
-<label>
-  Username:
-  <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-  {errors.username && <span>{errors.username}</span>}
-</label>;
+```tsx
+localePrefixedRouter.post('/my-new-page', { schema: { body: requestBodySchema } }, (_request, reply) =>
+  reply.render(<MyNewPage />)
+);
 ```
-
-## Best Practices for Form & Input Validation
-
-1. **Client-Side and Server-Side Validation**: Always validate user input on both the client and server sides. While client-side validation enhances user experience, server-side validation ensures data integrity and security.
-
-2. **Use Descriptive Error Messages**: Provide clear and concise error messages to help users understand what went wrong and how to correct it.
-
-3. **Implement Real-Time Validation**: Consider implementing real-time validation to provide instant feedback as users fill out the form, reducing frustration and errors.
-
-4. **Accessibility**: Ensure that your validation messages are accessible. Use ARIA roles and properties to help assistive technologies communicate validation states to users.
-
-5. **Test Your Validation Logic**: Regularly test your validation logic to ensure it correctly identifies errors and allows valid input.
-
-## Conclusion
-
-Form and input validation are critical components of any web application, and Velocity Core offers a robust framework for implementing these features effectively. By ensuring data integrity, enhancing security, and improving user experience, effective validation contributes to the overall success of your application. By following the guidelines and best practices outlined in this guide, you can build intuitive and reliable forms that meet the needs of your users while maintaining high standards of quality and performance.

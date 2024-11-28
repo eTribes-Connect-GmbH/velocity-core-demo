@@ -11,7 +11,7 @@ In an era where frontend development complexity has skyrocketed, **Velocity Core
 
 Velocity Core is rooted in the philosophy that **less is more**. It recognizes that many web applications and content-driven websites do not necessitate the intricate architecture of Single Page Applications (SPAs). With the challenges of SEO limitations and performance issues on mobile devices in mind, Velocity Core draws inspiration from the past while embracing the latest advancements in web development. By leveraging server-side rendering techniques, it harkens back to the origins of web development, ensuring a streamlined process that enhances both performance and user experience.
 
-## A Shift Towards Server-Side Rendering
+## A Shift Towards Server-Driven Technologies
 
 The recent emergence of innovative initiatives like [Hotwire](https://hotwired.dev/), [Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html), [React Server Components](https://react.dev/reference/rsc/server-components), and [Livewire](https://laravel-livewire.com/) reflects a growing consensus within the community: a return to simpler, more effective methodologies is needed. These approaches highlight the limitations of conventional client-side JavaScript and promote a more balanced, server-centric architecture that mitigates issues associated with bloated JavaScript bundles and hydration errors typical in modern frameworks.
 
