@@ -7,7 +7,11 @@ export type PageSection = {
   subSections: { title: string; slug: string }[];
 };
 
-const getSlug = (text: string) => text.toLowerCase().replace(/[^\w]+/g, '-');
+const getSlug = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^\w]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
 const getPageSections = (tokens: TokensList) =>
   (tokens.filter(({ type }) => type === 'heading') as Tokens.Heading[]).reduce<PageSection[]>(

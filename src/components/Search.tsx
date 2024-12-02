@@ -10,7 +10,7 @@ const Search = () => {
   const userAgent = useRequest().headers['user-agent'] ?? '';
   const modifierKey = /(Mac|iPhone|iPod|iPad)/i.test(userAgent) ? '⌘' : 'Ctrl ';
   return (
-    <>
+    <a href="https://google.com" target="_blank">
       <button
         type="button"
         className="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 lg:w-96 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500"
@@ -22,7 +22,7 @@ const Search = () => {
           <kbd className="font-sans">K</kbd>
         </kbd>
       </button>
-    </>
+    </a>
   );
 };
 
