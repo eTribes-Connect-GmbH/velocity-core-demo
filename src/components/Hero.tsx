@@ -7,15 +7,18 @@ import HeroBackground from './HeroBackground';
 
 const codeLanguage = 'ts';
 
-const code = `const DataPage = async () => {
-  const data = await queryDb();
-  return <Layout>This is your data: {data}</Layout>;
-};
-
-export default DataPage;`;
+const code = `const MyNewPage = async () => {
+  const data = await queryDatabase();
+  return (
+    <Layout title="My New Page">
+      <h1>Welcome to My New Page</h1>
+      <p>Here’s some data from the database: {data}</p>
+    </Layout>
+  );
+};`;
 
 const tabs = [
-  { name: 'DataPage.tsx', isActive: true },
+  { name: 'MyNewPage.tsx', isActive: true },
   { name: 'index.ts', isActive: false }
 ];
 

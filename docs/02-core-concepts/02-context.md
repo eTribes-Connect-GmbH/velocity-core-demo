@@ -3,96 +3,80 @@ title: Context
 section: Core Concepts
 ---
 
-In Velocity Core, the concept of **Context** plays a crucial role in managing state and facilitating communication between different components of your application. Context allows you to pass data and functionality throughout your component tree without the need for prop drilling, thereby enhancing the maintainability and scalability of your codebase. This guide will explore the significance of context, how to create and use it effectively, and best practices to follow.
+In web development, **context** refers to a mechanism that allows you to share data or functionality across different parts of your application without having to pass props explicitly at every level. This pattern helps manage and distribute data and functions globally, ensuring a clean and maintainable codebase.
 
-## Understanding Context
+Velocity Core adopts this powerful concept. The context feature in Velocity Core enables your JSX components to access server-side objects and contextually relevant data, making it easy to build dynamic components.
 
-### Definition of Context
+## Accessing Context
 
-**Context** in Velocity Core is a powerful feature that enables you to create a global state accessible by any component in your application. It provides a way to share values (such as user information, theme preferences, or application settings) without explicitly passing props through every level of your component hierarchy. This leads to cleaner code and more manageable components, especially in larger applications.
+In Velocity Core, the main way to access the context is through the `useContext()` utility. This function provides access to the Fastify response and reply objects and anything else you want to store in the context. The context is available globally during a request lifecycle and can be utilized directly within any of your JSX components, even deeply nested ones.
 
-### Benefits of Using Context
+## Request and Reply
 
-1. **Simplified State Management**: Context allows you to centralize state management, making it easier to handle shared data across various components without unnecessary complexity.
+There are shorthand utilities for accessing the request and reply objects directly.
 
-2. **Reduced Prop Drilling**: By providing access to data directly through context, you eliminate the need to pass props down multiple levels, streamlining your component structure.
+`useRequest()` can be used to retrieve path parameters, query parameters, the request body, cookies, or other headers. `useReply()` can be used to set response headers or send a redirect.
 
-3. **Improved Code Readability**: Context enhances the readability of your components by making dependencies explicit. You can easily see which components rely on shared data, leading to better maintainability.
+### Accessing Path Parameters
 
-4. **Enhanced Performance**: By avoiding unnecessary re-renders caused by prop drilling, context can help improve the performance of your application, especially in cases where state changes frequently.
+To access dynamic path parameters, you can write:
 
-## Creating and Using Context
-
-### Step 1: Create a Context
-
-To create a new context, start by creating a new file (e.g., `MyContext.js`) in your `src/contexts` directory:
-
-```javascript
-import React, { createContext, useState } from 'react';
-
-// Create the context
-const MyContext = createContext();
-
-// Create a provider component
-const MyProvider = ({ children }) => {
-  const [value, setValue] = useState('default value');
-
-  return <MyContext.Provider value={{ value, setValue }}>{children}</MyContext.Provider>;
-};
-
-export { MyContext, MyProvider };
+```ts
+const { params } = useRequest<{ Params: { id: string } }>();
+const id = params.id;
 ```
 
-### Step 2: Wrap Your Application with the Provider
+Make sure to include a corresponding placeholder in the route registration of the page:
 
-To make the context available throughout your application, wrap your root component with the provider in `src/index.js` or your main app file:
-
-```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { MyProvider } from './contexts/MyContext';
-
-ReactDOM.render(
-  <MyProvider>
-    <App />
-  </MyProvider>,
-  document.getElementById('root')
-);
+```tsx
+localePrefixedRouter.get('/my-new-page/:id', (_request, reply) => reply.render(<MyNewPage />));
 ```
 
-### Step 3: Consume Context in Components
+### Accessing Query Parameters
 
-To use the context values in a component, you can utilize the `useContext` hook. For example, in a component where you want to access and update the context:
+To access query parameters, you can write:
 
-```javascript
-import React, { useContext } from 'react';
-import { MyContext } from '../contexts/MyContext';
-
-const MyComponent = () => {
-  const { value, setValue } = useContext(MyContext);
-
-  return (
-    <div>
-      <h1>Current Value: {value}</h1>
-      <button onClick={() => setValue('new value')}>Change Value</button>
-    </div>
-  );
-};
-
-export default MyComponent;
+```ts
+const { query } = useRequest<{ Querystring: { q: string } }>();
+const searchTerm = query.q;
 ```
 
-## Best Practices for Using Context
+### Accessing the Request Body
 
-- **Limit Context Scope**: Only use context for data that is shared across multiple components. For localized state management, consider using component state instead.
+For accessing form data in a POST request:
 
-- **Use Separate Contexts**: Create separate contexts for different types of data (e.g., user information, theme settings). This prevents a single context from becoming too complex and difficult to manage.
+```ts
+const { body } = useRequest<{ Body: { firstName: string; lastName: string } }>();
+const firstName = body.firstName;
+const lastName = body.lastName;
+```
 
-- **Memoize Values**: When providing context values, consider memoizing them with `useMemo` to prevent unnecessary re-renders of consuming components.
+### Redirecting
 
-- **Avoid Overusing Context**: While context is a powerful tool, overusing it can lead to a convoluted component structure. Use it judiciously to maintain clarity and simplicity in your application.
+You can use the `useReply()` utility to redirect the user to another page:
 
-## Conclusion
+```tsx
+useReply().redirect('/en/my-new-page');
+```
 
-The **Context** feature in Velocity Core is an essential aspect of building scalable and maintainable web applications. By enabling centralized state management and reducing the complexity of prop drilling, context fosters cleaner, more efficient code. When used effectively, context can enhance your application's performance and readability, making it easier for developers to manage shared data across components. With this guide, you now have a foundational understanding of how to implement and leverage context in your Velocity Core applications, paving the way for effective state management and component communication.
+Although, it is easier to use the `<Redirect />` component (in `src/components/Redirect.tsx`) instead:
+
+```tsx
+return <Redirect path="/en/my-new-page" />;
+```
+
+## Internationalization
+
+Additionally, the context provides the `useI18n()` helper for translations, localized date and number formatting, and locale-prefixed navigation. See [Internationalization (i18n)](/advanced-guides/i18n) for more details.
+
+## Authentication
+
+Furthermore, user information can be stored on the request object that is made accessible through the context. Use the `useUser()` utility to retrieve the currently authenticated user. For more details, see [Authentication](/advanced-guides/auth).
+
+## Extending the Context
+
+The context in Velocity Core can be extended to include additional shared data or utilities. For instance, if you need to manage and access theming information, you can create a `useTheme()` function that provides the current theme context to your components.
+
+```ts
+export const useTheme = () => useRequest().cookies.theme;
+```

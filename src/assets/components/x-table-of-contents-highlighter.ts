@@ -6,7 +6,7 @@ const TableOfContentsHighlighter = component('x-table-of-contents-highlighter')<
 ) => {
   const pageSections = Array.from(self.querySelectorAll('a')).map(anchorElement => {
     const id = anchorElement.getAttribute('href')?.replace(/^#(.*)/, '$1') ?? '';
-    const position = (document.getElementById(id)?.getBoundingClientRect().top ?? 0) - 150;
+    const position = (document.getElementById(id)?.getBoundingClientRect().top ?? 0) + window.scrollY - 150;
     return { position, anchorElement };
   });
   const onScroll = () => {

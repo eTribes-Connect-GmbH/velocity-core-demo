@@ -3,103 +3,122 @@ title: Pages
 section: Core Concepts
 ---
 
-In Velocity Core, the concept of **Pages** serves as a fundamental building block for creating dynamic and engaging web applications. A page in Velocity Core is not just a static HTML document; it represents a rich, interactive component that can incorporate various elements, including components, layouts, and routing functionalities. This approach allows developers to structure their applications intuitively while providing a seamless user experience.
+Pages in Velocity Core are at the heart of your application’s structure. This guide will help you understand how to create new pages, fetch data for them, and structure navigation in your application.
 
-## Understanding Pages
+## Creating a New Page
 
-### Definition of a Page
+To create a new page in your Velocity Core application:
 
-A **Page** in Velocity Core is a container for UI components and content, designed to be rendered within a specific route. Each page corresponds to a particular view in your application, such as a home page, about page, or contact page. By encapsulating content and functionality within pages, developers can maintain a clean separation of concerns, making the codebase easier to manage and navigate.
+1. **Add a New File in `src/pages`**:  
+   Each file in the `src/pages` folder represents a page of your application containing the code of the respective page.
 
-### Benefits of Using Pages
+2. **Use JSX to Define the Page**:  
+   Components and pages are written in JSX. All JSX components in Velocity Core can by `async`. You can directly query your database or any other data source in the page component (or its child components) and use that data in the JSX you return. Here's an example:
 
-1. **Separation of Concerns**: By defining each view as a separate page, you can isolate different parts of your application’s functionality, leading to clearer, more maintainable code.
+   ```tsx
+   import { queryDatabase } from '~/connections/database';
 
-2. **Dynamic Routing**: Velocity Core provides built-in routing capabilities that enable you to map URLs to specific pages. This feature allows users to navigate directly to a particular page in your application, enhancing the user experience.
+   const MyNewPage = async () => {
+     const data = await queryDatabase();
+     return (
+       <Layout title="My New Page">
+         <h1>Welcome to My New Page</h1>
+         <p>Here’s some data from the database:</p>
+         <ul>
+           {data.map(item => (
+             <li key={item.id}>{item.name}</li>
+           ))}
+         </ul>
+       </Layout>
+     );
+   };
 
-3. **Code Reusability**: Pages can leverage shared components and layouts, promoting code reuse across different parts of the application. This reduces duplication and makes it easier to implement changes.
+   export default MyNewPage;
+   ```
 
-4. **Enhanced User Experience**: By creating well-structured pages, you can deliver a smooth and responsive experience to users, minimizing loading times and improving overall performance.
+## Using a Shared Layout Component
 
-## Creating a Page
+For consistency across your application, you can use a shared `Layout` component and wrap all your pages in it. This component can define a common structure, including the HTML `<head>` section and shared elements like a header and footer.
 
-Creating a page in Velocity Core is straightforward. Follow these steps to define and implement a new page in your application:
+A comprehensive example of this component is included in the base project (`src/components/Layout.tsx`). Here’s a simplified version to get an idea of how it works (don't use it like this, it is missing some pieces in the `<head>` section that are essential to Velocity Core):
 
-### Step 1: Define the Page Component
+```tsx
+const Layout = async ({ title, children }: { title: string; children: JSX.Element }) => (
+  <html lang="en">
+    <head>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>{title} | My Application</title>
+    </head>
+    <body>
+      <header>...</header>
+      <main>{children}</main>
+      <footer>...</footer>
+    </body>
+  </html>
+);
 
-Create a new JavaScript file in the `src/pages` directory. For example, to create an About page, you would create `About.js`:
-
-```javascript
-import React from 'react';
-
-const About = () => {
-  return (
-    <div>
-      <h1>About Us</h1>
-      <p>Welcome to the About page of our Velocity Core application.</p>
-    </div>
-  );
-};
-
-export default About;
+export default Layout;
 ```
 
-### Step 2: Set Up Routing
+## Registering Pages in the Pages Plugin
 
-To make your page accessible, you’ll need to configure routing in your application. Open your main routing file (usually located in `src/App.js` or a similar file) and import the new page component:
+After creating a new page in the `src/pages` folder, you need to register it in the `src/plugins/pages.tsx` file. This step is essential to link the page component with a specific route in your application.
 
-```javascript
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Home from './pages/Home';
-import About from './pages/About';
+Add a line like this in `src/plugins/pages.tsx`:
 
-const App = () => {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/about" component={About} />
-      </Switch>
-    </Router>
-  );
-};
-
-export default App;
+```tsx
+localePrefixedRouter.get('/my-new-page', (_request, reply) => reply.render(<MyNewPage />));
 ```
 
-### Step 3: Navigating Between Pages
+In this example:
 
-To allow users to navigate between pages, you can add links in your components. For example, to add a link to the About page in the Home component, update `Home.js`:
+- `/my-new-page` is the URL path under which the page will be accessible. (This path is relative to the locale prefix, so the final path that users will visit in their browser will actually be e.g. `/en/my-new-page`. See [Internationalization (i18n)](/advanced-guides/i18n) for more details.)
+- `<MyNewPage />` is the page component that will render when the route is accessed.
+- The `reply.render` function renders the JSX of the page to HTML and sends it to the user.
 
-```javascript
-import React from 'react';
-import { Link } from 'react-router-dom';
+## Navigating Between Pages
 
-const Home = () => {
-  return (
-    <div>
-      <h1>Welcome to My Velocity App!</h1>
-      <p>
-        <Link to="/about">Learn more about us</Link>
-      </p>
-    </div>
-  );
-};
+To navigate between pages, use normal `<a>` tags, just like you would in a standard HTML website. Thanks to Hotwire Turbo, these links will have smooth SPA-like navigation.
 
-export default Home;
+Here’s an example:
+
+```html
+<a href="/en/my-new-page">Go to My New Page</a>
 ```
 
-## Best Practices for Pages
+## Using Forms to Navigate Between Pages
 
-- **Keep Pages Focused**: Each page should serve a specific purpose and focus on a particular aspect of your application. This helps maintain clarity and usability.
+Hotwire Turbo also enhances forms, allowing you to navigate between pages while submitting data. You can use both `GET` and `POST` methods with forms:
 
-- **Leverage Layouts**: Use layouts to provide a consistent structure across different pages. This can include headers, footers, and navigation bars.
+### Form with GET Method
 
-- **Optimize Performance**: Ensure that pages load quickly by minimizing the use of heavy components and assets. Implement lazy loading for large components when appropriate.
+```html
+<form method="GET" action="/en/my-new-page">
+  <label htmlFor="q">Search:</label>
+  <input type="text" id="q" name="q" />
+  <button type="submit">Submit</button>
+</form>
+```
 
-- **Maintain Accessibility**: Design pages with accessibility in mind, ensuring that all users, regardless of ability, can navigate and interact with your application effectively.
+### Form with POST Method
 
-## Conclusion
+```html
+<form method="POST" action="/en/my-new-page">
+  <label htmlFor="firstName">First Name:</label>
+  <input type="text" id="firstName" name="firstName" />
+  <label htmlFor="lastName">Last Name:</label>
+  <input type="text" id="lastName" name="lastName" />
+  <button type="submit">Submit</button>
+</form>
+```
 
-The **Pages** concept in Velocity Core empowers developers to create organized, dynamic, and user-friendly web applications. By embracing the principles of separation of concerns, dynamic routing, and code reusability, developers can build scalable applications that deliver exceptional user experiences. With its straightforward implementation and best practices, creating and managing pages in Velocity Core is both efficient and effective, setting the stage for successful web development projects.
+If you use a `POST` form, ensure your route registration in `src/plugins/pages.tsx` is updated to support both `GET` and `POST`:
+
+```tsx
+localePrefixedRouter.route({
+  method: ['GET', 'POST'],
+  url: '/my-new-page',
+  handler: (_request, reply) => reply.render(<MyNewPage />)
+});
+```
