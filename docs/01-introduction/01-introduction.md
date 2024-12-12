@@ -21,7 +21,7 @@ This allows developers to write HTML-like structures using JavaScript or TypeScr
 
 ### Hotwire Turbo
 
-A tool that equips classic Multi-Page Applications (MPAs) with an SPA-like feel, removing the need for full page reloads by transmitting HTML over-the-wire instead of over-fetching from JSON APIs.
+A tool that equips classic Multi-Page Applications (MPAs) with an SPA-like feel, removing the need for full page reloads by transmitting HTML over-the-wire instead of fetching JSON from APIs—eliminating over-fetching unnecessary data.
 
 ### Web Components
 

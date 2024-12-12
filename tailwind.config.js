@@ -1,6 +1,9 @@
 import typographyPlugin from '@tailwindcss/typography';
-import type { Config } from 'tailwindcss';
 
+/**
+ * @see https://tailwindcss.com/docs/configuration
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: ['./src/**/*.{ts,tsx}'],
   darkMode: 'selector',
@@ -36,14 +39,10 @@ export default {
           '950': '#112b5a'
         }
       },
-      // fontFamily: {
-      //   sans: 'var(--font-inter)',
-      //   display: ['var(--font-lexend)', { fontFeatureSettings: '"ss01"' }]
-      // },
       maxWidth: {
         '8xl': '88rem'
       }
     }
   },
   plugins: [typographyPlugin]
-} satisfies Config;
+};

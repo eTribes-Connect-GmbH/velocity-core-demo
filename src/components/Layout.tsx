@@ -61,7 +61,7 @@ const Layout = async ({ title, isHomePage, children }: LayoutProps) => {
         <title>{[title, 'Velocity'].filter(Boolean).join(' | ')}</title>
         <link rel="icon" href={favicon} />
         <link rel="stylesheet" href={styles} />
-        <script async type="module" src={client}></script>
+        <script async type="module" src={client} />
       </head>
       <body className={['flex min-h-full bg-white dark:bg-slate-900', theme]}>
         <div className="flex w-full flex-col">

@@ -14,6 +14,7 @@ Here's an example of how to create a simple Web Component using the `component` 
 ```ts
 import { component } from '../utilities/webComponents';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ClassToggle = component('x-class-toggle')<{ toggleClass: string }>((self, { toggleClass }) => {
   const triggers = self.querySelectorAll('[data-class-toggle-trigger]');
   const target = self.querySelector('[data-class-toggle-target]')!;
@@ -42,7 +43,7 @@ To ensure excellent TypeScript support when using your custom Web Component in J
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
     interface IntrinsicElements extends Id<typeof ClassToggle> {}
   }
 }

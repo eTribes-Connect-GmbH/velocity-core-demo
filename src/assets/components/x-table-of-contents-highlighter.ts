@@ -1,5 +1,6 @@
 import { component } from '../utilities/webComponents';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TableOfContentsHighlighter = component('x-table-of-contents-highlighter')<{ toggleClass: string }>((
   self,
   { toggleClass }
@@ -26,7 +27,7 @@ const TableOfContentsHighlighter = component('x-table-of-contents-highlighter')<
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
     interface IntrinsicElements extends Id<typeof TableOfContentsHighlighter> {}
   }
 }
