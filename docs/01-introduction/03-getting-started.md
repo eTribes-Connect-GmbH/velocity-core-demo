@@ -26,7 +26,7 @@ Once the prerequisites are in place, you can quickly set up a new Velocity Core 
 npm create velocity-app
 ```
 
-This command will prompt you with a few questions to customize your new project. You’ll be asked things like the name of your project and the preferred directory for the files. Once you've answered the questions, the tool will automatically generate a directory containing all the basic setup for a Velocity Core application, including essential files and configuration.
+This command will prompt you for the name of your project and about further configuration options. Once you’ve answered the questions, the tool will automatically generate a directory containing all the basic setup for a Velocity Core application, including essential files and configuration.
 
 Next to the core components of Velocity Core, the base project also includes **TailwindCSS** for styling, **@formatjs/intl** for internationalization (i18n), and an **Auth0** OAuth 2.0 / OpenID Connect integration for authentication.
 

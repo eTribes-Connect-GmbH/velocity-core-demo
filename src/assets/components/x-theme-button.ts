@@ -1,6 +1,7 @@
 import { visit } from '@hotwired/turbo';
 import { component } from '../utilities/webComponents';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ThemeButton = component('x-theme-button')<{ theme: string }>((self, { theme }) => {
   const button = self.firstChild;
   const onClick = () => {
@@ -14,7 +15,7 @@ const ThemeButton = component('x-theme-button')<{ theme: string }>((self, { them
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
     interface IntrinsicElements extends Id<typeof ThemeButton> {}
   }
 }

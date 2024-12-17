@@ -33,7 +33,7 @@ const TrafficLightsIcon = (props: SVGProps<SVGSVGElement>) => (
 const Hero = () => (
   <div className="overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.75rem] dark:pb-32 dark:pt-[4.75rem]">
     <div className="py-16 sm:px-2 lg:relative lg:px-0 lg:py-20">
-      <div className="lg:max-w-8xl mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
+      <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
         <div className="relative z-10 md:text-center lg:text-left">
           <img
             className="absolute bottom-full right-full -mb-56 -mr-72 opacity-50"
@@ -43,7 +43,7 @@ const Hero = () => (
             height={530}
           />
           <div className="relative">
-            <p className="font-display via-velocity-400 inline bg-gradient-to-r from-indigo-200 to-indigo-200 bg-clip-text text-5xl tracking-tight text-transparent">
+            <p className="font-display inline bg-gradient-to-r from-indigo-200 via-velocity-400 to-indigo-200 bg-clip-text text-5xl tracking-tight text-transparent">
               Old-school, but high-speed
             </p>
             <p className="mt-3 text-2xl tracking-tight text-slate-400">
@@ -65,10 +65,10 @@ const Hero = () => (
           <div className="relative">
             <img className="absolute -right-64 -top-64" src={blurCyanImage} alt="" width={530} height={530} />
             <img className="absolute -bottom-40 -right-44" src={blurIndigoImage} alt="" width={567} height={567} />
-            <div className="from-velocity-300 via-velocity-300/70 absolute inset-0 rounded-2xl bg-gradient-to-tr to-blue-300 opacity-10 blur-lg" />
-            <div className="from-velocity-300 via-velocity-300/70 absolute inset-0 rounded-2xl bg-gradient-to-tr to-blue-300 opacity-10" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-velocity-300 via-velocity-300/70 to-blue-300 opacity-10 blur-lg" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-velocity-300 via-velocity-300/70 to-blue-300 opacity-10" />
             <div className="relative rounded-2xl bg-[#0A101F]/80 ring-1 ring-white/10 backdrop-blur">
-              <div className="from-velocity-300/0 via-velocity-300/70 to-velocity-300/0 absolute -top-px left-20 right-11 h-px bg-gradient-to-r" />
+              <div className="absolute -top-px left-20 right-11 h-px bg-gradient-to-r from-velocity-300/0 via-velocity-300/70 to-velocity-300/0" />
               <div className="absolute -bottom-px left-11 right-20 h-px bg-gradient-to-r from-blue-400/0 via-blue-400 to-blue-400/0" />
               <div className="pl-4 pt-4">
                 <TrafficLightsIcon class="h-2.5 w-auto stroke-slate-500/30" />
@@ -79,7 +79,7 @@ const Hero = () => (
                       className={[
                         'flex h-6 rounded-full',
                         tab.isActive
-                          ? 'from-velocity-400/30 via-velocity-400 to-velocity-400/30 text-velocity-300 bg-gradient-to-r p-px font-medium'
+                          ? 'bg-gradient-to-r from-velocity-400/30 via-velocity-400 to-velocity-400/30 p-px font-medium text-velocity-300'
                           : 'text-slate-500'
                       ]}
                     >

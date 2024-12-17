@@ -13,7 +13,7 @@ To create a new page in your Velocity Core application:
    Each file in the `src/pages` folder represents a page of your application containing the code of the respective page.
 
 2. **Use JSX to Define the Page**:  
-   Components and pages are written in JSX. All JSX components in Velocity Core can by `async`. You can directly query your database or any other data source in the page component (or its child components) and use that data in the JSX you return. Here's an example:
+   Components and pages are written in JSX. All JSX components in Velocity Core can be `async`. You can directly query your database or any other data source in the page component (or its child components) and use that data in the JSX you return. Here's an example:
 
    ```tsx
    import { queryDatabase } from '~/connections/database';

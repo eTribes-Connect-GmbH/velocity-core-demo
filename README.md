@@ -35,3 +35,31 @@ cp example.env .env
 ```sh
 npm run dev
 ```
+
+## Build for production
+
+### Build
+
+```sh
+npm run build
+```
+
+### Run
+
+```sh
+npm start
+```
+
+## Run with Docker
+
+### Build
+
+```sh
+docker build -t velocity-docs .
+```
+
+### Run
+
+```sh
+docker run --name velocity-docs -p 8888:8888 --env-file .env -e NODE_ENV=production velocity-docs
+```
