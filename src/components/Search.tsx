@@ -10,19 +10,22 @@ const Search = () => {
   const userAgent = useRequest().headers['user-agent'] ?? '';
   const modifierKey = /(Mac|iPhone|iPod|iPad)/i.test(userAgent) ? '⌘' : 'Ctrl ';
   return (
-    <a href="https://google.com" target="_blank">
-      <button
-        type="button"
-        className="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 lg:w-96 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500"
-      >
-        <SearchIcon class="h-5 w-5 flex-none fill-slate-400 group-hover:fill-slate-500 md:group-hover:fill-slate-400 dark:fill-slate-500" />
-        <span className="sr-only md:not-sr-only md:ml-2 md:text-slate-500 md:dark:text-slate-400">Search docs</span>
-        <kbd className="ml-auto hidden font-medium text-slate-400 md:block dark:text-slate-500">
-          <kbd className="font-sans">{modifierKey}</kbd>
-          <kbd className="font-sans">K</kbd>
-        </kbd>
-      </button>
-    </a>
+    <x-google-cse cx="b7ef3b9b70b014d1f">
+      <form>
+        <div class="relative hidden md:block">
+          <input
+            name="searchTerm"
+            className="peer w-80 rounded-lg py-2.5 pl-10 pr-12 text-sm placeholder-slate-500 outline-none ring-1 ring-slate-200 hover:ring-slate-300 lg:w-96 dark:bg-slate-800/75 dark:placeholder-slate-400 dark:ring-inset dark:ring-white/5 dark:hover:bg-slate-700/40 dark:hover:ring-slate-500"
+            placeholder="Search docs"
+          />
+          <SearchIcon class="absolute left-2.5 top-3 h-5 w-5 flex-none fill-slate-400 peer-hover:fill-slate-500 dark:fill-slate-500" />
+          <kbd className="absolute right-2.5 top-2.5 font-medium text-slate-400 dark:text-slate-500">
+            <kbd className="font-sans">{modifierKey}</kbd>
+            <kbd className="font-sans">K</kbd>
+          </kbd>
+        </div>
+      </form>
+    </x-google-cse>
   );
 };
 

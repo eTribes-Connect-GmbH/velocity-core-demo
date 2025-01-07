@@ -41,7 +41,7 @@ const ThemeSelector = ({ className }: { className?: string }) => {
   return (
     <x-class-toggle toggleClass="hidden">
       <div className={className}>
-        <label className="sr-only">Theme</label>
+        <div className="sr-only">Theme</div>
         <button
           className="flex h-6 w-6 items-center justify-center rounded-lg shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5"
           aria-label="Theme"
