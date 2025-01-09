@@ -51,7 +51,7 @@ const Hero = () => (
               web applications while significantly reducing development complexity
             </p>
             <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
-              <Button href="/#getting-started">Get started</Button>
+              <Button href="/introduction/getting-started">Get started</Button>
               <Button href="https://github.com/etribes-connect-gmbh/velocity-core" variant="secondary" target="_blank">
                 View on GitHub
               </Button>

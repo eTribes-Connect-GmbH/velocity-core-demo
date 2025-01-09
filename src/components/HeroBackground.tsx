@@ -1,4 +1,4 @@
-const HeroBackground = (props: DetailedHTMLProps<SVGProps<SVGSVGElement>, SVGSVGElement>) => {
+const HeroBackground = (props: SVGProps<SVGSVGElement>) => {
   const id = crypto.randomUUID();
   return (
     <svg aria-hidden="true" viewBox="0 0 668 1069" width={668} height={1069} fill="none" {...props}>

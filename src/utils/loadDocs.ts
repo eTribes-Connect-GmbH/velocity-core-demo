@@ -1,6 +1,7 @@
 import matter from 'gray-matter';
 import fs from 'node:fs/promises';
-import renderMarkdown, { PageSection } from './renderMarkdown';
+import { PageSection } from './getPageSections';
+import renderMarkdown from './renderMarkdown';
 
 export type Doc = {
   title: string;
@@ -8,6 +9,7 @@ export type Doc = {
   href: string;
   pageSections: PageSection[];
   htmlBody: string;
+  plainTextBody: string;
 };
 
 const loadDocs = async (): Promise<Doc[]> =>
@@ -24,14 +26,15 @@ const loadDocs = async (): Promise<Doc[]> =>
               .map(async (file, fileIndex) => {
                 const fileContent = await fs.readFile(`./docs/${dir.name}/${file.name}`, 'utf-8');
                 const { data, content } = matter(fileContent);
-                const { pageSections, htmlBody } = renderMarkdown(content);
+                const { pageSections, htmlBody, plainTextBody } = renderMarkdown(content);
                 const slug = file.name.replace(/^\d{2}-(.+)\.md$/, '$1');
                 return {
                   title: data.title,
                   section: data.section,
                   href: dirIndex === 0 && fileIndex === 0 ? '/' : `/${sectionSlug}/${slug}`,
                   pageSections,
-                  htmlBody
+                  htmlBody,
+                  plainTextBody
                 };
               })
           );
