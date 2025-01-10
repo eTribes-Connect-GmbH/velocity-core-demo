@@ -14,7 +14,7 @@ const fuse = new Fuse<Doc>(docs, {
   ignoreLocation: true
 });
 
-const getLongestMatchIndex = (matches: readonly FuseResultMatch[] | undefined, key: string) =>
+const getLongestMatchRange = (matches: readonly FuseResultMatch[] | undefined, key: string) =>
   matches
     ?.find(match => match.key === key)
     ?.indices.reduce(
@@ -28,19 +28,19 @@ const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const MatchHighlighter = ({ text, index }: { text: string; index?: RangeTuple }) => {
-  if (!index) {
+const MatchHighlighter = ({ text, highlightRange }: { text: string; highlightRange?: RangeTuple }) => {
+  if (!highlightRange) {
     return <span>{text.slice(0, 400)}</span>;
   }
-  const matchStart = index[0];
-  const matchEnd = index[1] + 1;
+  const matchStart = highlightRange[0];
+  const matchEnd = highlightRange[1] + 1;
   const textStart = Math.max(0, matchStart - 50);
   const textEnd = Math.min(text.length, matchEnd + 350);
   return (
     <span>
       {textStart > 0 && '…'}
       {text.slice(textStart, matchStart)}
-      <span className="bg-transparent text-sky-600 group-hover:underline dark:text-sky-400">
+      <span className="bg-transparent text-sky-600 group-focus-within:underline group-hover:underline dark:text-sky-400">
         {text.slice(matchStart, matchEnd)}
       </span>
       {text.slice(matchEnd, textEnd)}
@@ -49,20 +49,20 @@ const MatchHighlighter = ({ text, index }: { text: string; index?: RangeTuple })
 };
 
 const SearchResult = ({ result }: { result: FuseResult<Doc> }) => (
-  <a href={result.item.href}>
+  <a href={result.item.href} className="group outline-none">
     <li
-      className="group block cursor-pointer rounded-lg px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700/30"
+      className="block rounded-lg px-3 py-2.5 group-focus-within:bg-slate-100 group-hover:bg-slate-100 dark:group-focus-within:bg-slate-700/30 dark:group-hover:bg-slate-700/30"
       aria-labelledby={`${result.refIndex}-section ${result.refIndex}-title`}
     >
       <div
         id={`${result.refIndex}-title`}
         aria-hidden="true"
-        className="text-sm text-slate-700 group-hover:text-sky-600 dark:text-slate-300 dark:group-hover:text-sky-400"
+        className="text-sm text-slate-700 group-focus-within:hover:text-sky-600 group-hover:text-sky-600 dark:text-slate-300 dark:group-focus-within:hover:text-sky-400 dark:group-hover:text-sky-400"
       >
-        <MatchHighlighter text={result.item.title} index={getLongestMatchIndex(result.matches, 'title')} />
+        <MatchHighlighter text={result.item.title} highlightRange={getLongestMatchRange(result.matches, 'title')} />
       </div>
       <div id={`${result.refIndex}-section`} aria-hidden="true" className="text-xs text-slate-500 dark:text-slate-400">
-        <MatchHighlighter text={result.item.section} index={getLongestMatchIndex(result.matches, 'section')} />
+        <MatchHighlighter text={result.item.section} highlightRange={getLongestMatchRange(result.matches, 'section')} />
       </div>
       <div
         id={`${result.refIndex}-text`}
@@ -71,7 +71,7 @@ const SearchResult = ({ result }: { result: FuseResult<Doc> }) => (
       >
         <MatchHighlighter
           text={result.item.plainTextBody}
-          index={getLongestMatchIndex(result.matches, 'plainTextBody')}
+          highlightRange={getLongestMatchRange(result.matches, 'plainTextBody')}
         />
       </div>
     </li>
@@ -120,14 +120,14 @@ const SearchDialog = () => {
       <div className="fixed inset-0 bg-slate-900/50 backdrop-blur" />
       <div className="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
         <div className="mx-auto transform-gpu overflow-hidden rounded-xl bg-white shadow-xl sm:max-w-xl dark:bg-slate-800 dark:ring-1 dark:ring-slate-700">
-          <div>
+          <x-modal-closer>
             <form method="GET" action="" data-turbo-action="replace">
               <SearchInput value={searchTerm} />
               <div className="border-t border-slate-200 bg-white px-2 py-3 empty:hidden dark:border-slate-400/10 dark:bg-slate-800">
                 {searchTerm && <SearchResults searchTerm={searchTerm} results={results} />}
               </div>
             </form>
-          </div>
+          </x-modal-closer>
         </div>
       </div>
     </div>
@@ -141,8 +141,8 @@ const Search = () => {
   const isSearchOpen = searchTerm !== undefined;
   return (
     <>
-      <x-shortcut-clicker shortcutKey="k">
-        <a href="?q">
+      <x-shortcut-clicker shortcutKey="k" withModifierKey>
+        <a href="?q=">
           <button
             type="button"
             className="group flex h-6 w-6 items-center justify-center sm:justify-start md:h-auto md:w-80 md:flex-none md:rounded-lg md:py-2.5 md:pl-4 md:pr-3.5 md:text-sm md:ring-1 md:ring-slate-200 md:hover:ring-slate-300 lg:w-96 dark:md:bg-slate-800/75 dark:md:ring-inset dark:md:ring-white/5 dark:md:hover:bg-slate-700/40 dark:md:hover:ring-slate-500"

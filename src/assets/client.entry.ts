@@ -4,6 +4,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import './base.css';
 import './components/x-class-toggle';
 import './components/x-instant-submitter';
+import './components/x-modal-closer';
 import './components/x-shortcut-clicker';
 import './components/x-table-of-contents-highlighter';
 import './components/x-theme-button';

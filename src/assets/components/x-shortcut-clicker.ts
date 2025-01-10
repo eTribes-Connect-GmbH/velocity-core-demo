@@ -1,10 +1,14 @@
 import { component } from '../utilities/webComponents';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ShortcutClicker = component('x-shortcut-clicker')<{ shortcutKey: string }>((self, { shortcutKey }) => {
+const ShortcutClicker = component('x-shortcut-clicker')<{ shortcutKey: string; withModifierKey?: boolean }>((
+  self,
+  { shortcutKey, withModifierKey }
+) => {
   const target = self.children[0] as HTMLAnchorElement | HTMLButtonElement;
+  const modifierKey = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent) ? 'metaKey' : 'ctrlKey';
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === shortcutKey && (event.metaKey || event.ctrlKey)) {
+    if (event.key === shortcutKey && (!withModifierKey || event[modifierKey])) {
       event.preventDefault();
       target.click();
     }
