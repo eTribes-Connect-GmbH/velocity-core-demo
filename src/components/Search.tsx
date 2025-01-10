@@ -1,26 +1,16 @@
-import Fuse, { FuseResult, FuseResultMatch, RangeTuple } from 'fuse.js';
+import lunr from 'lunr';
 import { useRequest } from '~/context';
 import docs from '~/docs';
 import { Doc } from '~/utils/loadDocs';
 
-const fuse = new Fuse<Doc>(docs, {
-  keys: [
-    { name: 'title', weight: 0.6 },
-    { name: 'section', weight: 0.3 },
-    { name: 'plainTextBody', weight: 0.5 }
-  ],
-  threshold: 0.3,
-  includeMatches: true,
-  ignoreLocation: true
-});
-
-const getLongestMatchIndex = (matches: readonly FuseResultMatch[] | undefined, key: string) =>
-  matches
-    ?.find(match => match.key === key)
-    ?.indices.reduce(
-      (longest, current) => (current[1] - current[0] > longest[1] - longest[0] ? current : longest),
-      [0, 0]
-    );
+const lunrBuilder = new lunr.Builder();
+lunrBuilder.ref('href');
+lunrBuilder.field('title');
+lunrBuilder.field('section');
+lunrBuilder.field('plainTextBody');
+lunrBuilder.metadataWhitelist = ['position'];
+docs.forEach(doc => lunrBuilder.add(doc));
+const lunrIndex = lunrBuilder.build();
 
 const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg aria-hidden="true" viewBox="0 0 20 20" {...props}>
@@ -28,13 +18,13 @@ const SearchIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const MatchHighlighter = ({ text, index }: { text: string; index?: RangeTuple }) => {
+const MatchHighlighter = ({ text, index }: { text: string; index?: [number, number] }) => {
   if (!index) {
     return <span>{text.slice(0, 400)}</span>;
   }
-  const matchStart = index[0];
-  const matchEnd = index[1] + 1;
+  const [matchStart, matchLength] = index;
   const textStart = Math.max(0, matchStart - 50);
+  const matchEnd = matchStart + matchLength;
   const textEnd = Math.min(text.length, matchEnd + 350);
   return (
     <span>
@@ -48,37 +38,49 @@ const MatchHighlighter = ({ text, index }: { text: string; index?: RangeTuple })
   );
 };
 
-const SearchResult = ({ result }: { result: FuseResult<Doc> }) => (
+const SearchResult = ({ result }: { result: lunr.Index.Result & { item: Doc } }) => (
   <a href={result.item.href}>
     <li
       className="group block cursor-pointer rounded-lg px-3 py-2.5 hover:bg-slate-100 dark:hover:bg-slate-700/30"
-      aria-labelledby={`${result.refIndex}-section ${result.refIndex}-title`}
+      aria-labelledby={`${result.ref}-section ${result.ref}-title`}
     >
       <div
-        id={`${result.refIndex}-title`}
+        id={`${result.ref}-title`}
         aria-hidden="true"
         className="text-sm text-slate-700 group-hover:text-sky-600 dark:text-slate-300 dark:group-hover:text-sky-400"
       >
-        <MatchHighlighter text={result.item.title} index={getLongestMatchIndex(result.matches, 'title')} />
+        <MatchHighlighter
+          text={result.item.title}
+          index={Object.values(result.matchData.metadata)[0]?.title?.position[0]}
+        />
       </div>
-      <div id={`${result.refIndex}-section`} aria-hidden="true" className="text-xs text-slate-500 dark:text-slate-400">
-        <MatchHighlighter text={result.item.section} index={getLongestMatchIndex(result.matches, 'section')} />
+      <div id={`${result.ref}-section`} aria-hidden="true" className="text-xs text-slate-500 dark:text-slate-400">
+        <MatchHighlighter
+          text={result.item.section}
+          index={Object.values(result.matchData.metadata)[0]?.section?.position[0]}
+        />
       </div>
       <div
-        id={`${result.refIndex}-text`}
+        id={`${result.ref}-text`}
         aria-hidden="true"
         className="mt-2 line-clamp-3 text-xs text-slate-500 dark:text-slate-400"
       >
         <MatchHighlighter
           text={result.item.plainTextBody}
-          index={getLongestMatchIndex(result.matches, 'plainTextBody')}
+          index={Object.values(result.matchData.metadata)[0]?.plainTextBody?.position[0]}
         />
       </div>
     </li>
   </a>
 );
 
-const SearchResults = ({ searchTerm, results }: { searchTerm: string; results: FuseResult<Doc>[] }) => {
+const SearchResults = ({
+  searchTerm,
+  results
+}: {
+  searchTerm: string;
+  results: (lunr.Index.Result & { item: Doc })[];
+}) => {
   if (!results.length) {
     return (
       <p className="px-4 py-8 text-center text-sm text-slate-700 dark:text-slate-400">
@@ -114,7 +116,9 @@ const SearchInput = ({ value }: { value: string }) => (
 
 const SearchDialog = () => {
   const searchTerm = useRequest<{ Querystring: { q: string } }>().query.q;
-  const results = searchTerm ? fuse.search(searchTerm, { limit: 4 }) : [];
+  const results = searchTerm
+    ? lunrIndex.search(searchTerm).map(result => ({ ...result, item: docs.find(doc => doc.href === result.ref)! }))
+    : [];
   return (
     <div className="fixed inset-0 z-50">
       <div className="fixed inset-0 bg-slate-900/50 backdrop-blur" />

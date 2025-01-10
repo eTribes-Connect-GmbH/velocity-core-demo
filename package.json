@@ -20,14 +20,15 @@
     "@nanoweb/jsx": "0.0.19",
     "@tailwindcss/typography": "0.5.16",
     "fastify": "5.2.1",
-    "fuse.js": "7.0.0",
     "gray-matter": "4.0.3",
     "highlight.js": "11.11.1",
+    "lunr": "2.3.9",
     "marked": "15.0.6"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-jsx": "2.12.1",
     "@types/hotwired__turbo": "8.0.3",
+    "@types/lunr": "2.3.7",
     "@types/node": "22.10.5",
     "esbuild": "0.24.2",
     "eslint": "9.17.0",
