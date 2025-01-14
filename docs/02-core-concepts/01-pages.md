@@ -95,7 +95,7 @@ Hotwire Turbo also enhances forms, allowing you to navigate between pages while 
 
 ```html
 <form method="GET" action="/en/my-new-page">
-  <label htmlFor="q">Search:</label>
+  <label for="q">Search:</label>
   <input type="text" id="q" name="q" />
   <button type="submit">Submit</button>
 </form>
@@ -105,9 +105,9 @@ Hotwire Turbo also enhances forms, allowing you to navigate between pages while 
 
 ```html
 <form method="POST" action="/en/my-new-page">
-  <label htmlFor="firstName">First Name:</label>
+  <label for="firstName">First Name:</label>
   <input type="text" id="firstName" name="firstName" />
-  <label htmlFor="lastName">Last Name:</label>
+  <label for="lastName">Last Name:</label>
   <input type="text" id="lastName" name="lastName" />
   <button type="submit">Submit</button>
 </form>
