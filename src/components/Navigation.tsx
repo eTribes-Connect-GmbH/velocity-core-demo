@@ -1,5 +1,5 @@
-import { useRequest } from '~/context';
-import docs from '~/docs';
+import { useRequest } from '~/context.js';
+import docs from '~/docs.js';
 
 const navigation = docs.reduce<{ title: string; pages: { title: string; href: string }[] }[]>((acc, doc) => {
   const section = acc.find(eachSection => eachSection.title === doc.section);

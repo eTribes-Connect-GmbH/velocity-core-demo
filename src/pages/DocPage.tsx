@@ -1,9 +1,9 @@
 import { unsafe } from '@nanoweb/jsx';
-import DocsHeader from '~/components/DocsHeader';
-import Layout from '~/components/Layout';
-import PrevNextLinks, { PrevNextLinksProps } from '~/components/PrevNextLinks';
-import TableOfContents from '~/components/TableOfContents';
-import { Doc } from '~/utils/loadDocs';
+import DocsHeader from '~/components/DocsHeader.js';
+import Layout from '~/components/Layout.js';
+import PrevNextLinks, { PrevNextLinksProps } from '~/components/PrevNextLinks.js';
+import TableOfContents from '~/components/TableOfContents.js';
+import { Doc } from '~/utils/loadDocs.js';
 
 const DocPage = async ({
   title,

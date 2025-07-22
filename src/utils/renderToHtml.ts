@@ -1,6 +1,6 @@
 import hljs from 'highlight.js';
 import { Parser, Renderer, Tokens, TokensList } from 'marked';
-import getSlug from './getSlug';
+import getSlug from './getSlug.js';
 
 class HtmlRenderer extends Renderer {
   public heading({ tokens, depth }: Tokens.Heading): string {

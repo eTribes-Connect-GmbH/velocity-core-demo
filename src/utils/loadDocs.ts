@@ -1,7 +1,7 @@
 import matter from 'gray-matter';
 import fs from 'node:fs/promises';
-import { PageSection } from './getPageSections';
-import renderMarkdown from './renderMarkdown';
+import { PageSection } from './getPageSections.js';
+import renderMarkdown from './renderMarkdown.js';
 
 export type Doc = {
   title: string;

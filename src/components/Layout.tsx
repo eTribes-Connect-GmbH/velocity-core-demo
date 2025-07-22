@@ -1,13 +1,13 @@
 import styles from 'bundle:client.entry.css';
 import client from 'bundle:client.entry.js';
 import favicon from '~/assets/favicon.ico';
-import { useTheme } from '~/context';
-import Hero from './Hero';
-import Logo, { Logomark } from './Logo';
-import MobileNavigation from './MobileNavigation';
-import Navigation from './Navigation';
-import Search from './Search';
-import ThemeSelector from './ThemeSelector';
+import { useTheme } from '~/context.js';
+import Hero from './Hero.js';
+import Logo, { Logomark } from './Logo.js';
+import MobileNavigation from './MobileNavigation.js';
+import Navigation from './Navigation.js';
+import Search from './Search.js';
+import ThemeSelector from './ThemeSelector.js';
 
 const GitHubIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg aria-hidden="true" viewBox="0 0 16 16" {...props}>

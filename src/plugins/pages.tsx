@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify';
-import docs from '~/docs';
-import DocPage from '~/pages/DocPage';
+import docs from '~/docs.js';
+import DocPage from '~/pages/DocPage.js';
 
 const pages: FastifyPluginAsync = async server => {
   docs.forEach((doc, i) => {

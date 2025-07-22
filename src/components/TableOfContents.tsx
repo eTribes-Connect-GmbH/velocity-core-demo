@@ -1,4 +1,4 @@
-import { PageSection } from '~/utils/getPageSections';
+import { PageSection } from '~/utils/getPageSections.js';
 
 const TableOfContents = ({ pageSections }: { pageSections: PageSection[] }) => (
   <div className="hidden xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">

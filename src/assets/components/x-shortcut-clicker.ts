@@ -1,4 +1,4 @@
-import { component } from '../utilities/webComponents';
+import { component } from '../utilities/webComponents.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ShortcutClicker = component('x-shortcut-clicker')<{ shortcutKey: string; withModifierKey?: boolean }>((

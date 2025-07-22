@@ -16,7 +16,7 @@ To create a new page in your Velocity Core application:
    Components and pages are written in JSX. All JSX components in Velocity Core can be `async`. You can directly query your database or any other data source in the page component (or its child components) and use that data in the JSX you return. Here's an example:
 
    ```tsx
-   import { queryDatabase } from '~/connections/database';
+   import { queryDatabase } from '~/connections/database.js';
 
    const MyNewPage = async () => {
      const data = await queryDatabase();

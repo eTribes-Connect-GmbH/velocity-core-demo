@@ -1,7 +1,7 @@
 import Fuse, { FuseResult, FuseResultMatch, RangeTuple } from 'fuse.js';
-import { useRequest } from '~/context';
-import docs from '~/docs';
-import { Doc } from '~/utils/loadDocs';
+import { useRequest } from '~/context.js';
+import docs from '~/docs.js';
+import { Doc } from '~/utils/loadDocs.js';
 
 const fuse = new Fuse<Doc>(docs, {
   keys: [
