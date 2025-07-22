@@ -1,7 +1,7 @@
 import { Lexer } from 'marked';
-import renderToPlainText from './renderToPlainText';
-import getPageSections from './getPageSections';
-import renderToHtml from './renderToHtml';
+import renderToPlainText from './renderToPlainText.js';
+import getPageSections from './getPageSections.js';
+import renderToHtml from './renderToHtml.js';
 
 const renderMarkdown = (markdown: string) => {
   const lexer = new Lexer();

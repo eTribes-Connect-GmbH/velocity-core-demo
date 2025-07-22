@@ -1,4 +1,4 @@
-import { useTheme } from '~/context';
+import { useTheme } from '~/context.js';
 
 const LightIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg aria-hidden="true" viewBox="0 0 16 16" {...props}>

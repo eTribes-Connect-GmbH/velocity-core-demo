@@ -2,8 +2,8 @@ import { unsafe } from '@nanoweb/jsx';
 import hljs from 'highlight.js';
 import blurCyanImage from '~/assets/images/blur-cyan.png';
 import blurIndigoImage from '~/assets/images/blur-indigo.png';
-import Button from './Button';
-import HeroBackground from './HeroBackground';
+import Button from './Button.js';
+import HeroBackground from './HeroBackground.js';
 
 const codeLanguage = 'ts';
 

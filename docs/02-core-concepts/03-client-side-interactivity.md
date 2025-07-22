@@ -12,7 +12,7 @@ Velocity Core provides a simple utility that makes writing Web Components less v
 Here's an example of how to create a simple Web Component using the `component` helper:
 
 ```ts
-import { component } from '../utilities/webComponents';
+import { component } from '../utilities/webComponents.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ClassToggle = component('x-class-toggle')<{ toggleClass: string }>((self, { toggleClass }) => {

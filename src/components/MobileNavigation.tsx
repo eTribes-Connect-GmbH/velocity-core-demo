@@ -1,5 +1,5 @@
-import { Logomark } from './Logo';
-import Navigation from './Navigation';
+import { Logomark } from './Logo.js';
+import Navigation from './Navigation.js';
 
 const MenuIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" {...props}>

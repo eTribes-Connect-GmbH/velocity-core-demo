@@ -1,4 +1,4 @@
-import { component } from '../utilities/webComponents';
+import { component } from '../utilities/webComponents.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const InstantSubmitter = component('x-instant-submitter')<{ debounceInMs: string }>((self, { debounceInMs }) => {

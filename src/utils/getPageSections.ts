@@ -1,5 +1,5 @@
 import { Tokens, TokensList } from 'marked';
-import getSlug from './getSlug';
+import getSlug from './getSlug.js';
 
 export type PageSection = {
   title: string;

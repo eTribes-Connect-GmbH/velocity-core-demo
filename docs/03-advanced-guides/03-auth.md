@@ -34,7 +34,7 @@ To log out users, redirect them to the logout route. Make sure to disable Turbo 
 Once a user is authenticated, their information is stored in the request object, which is accessible through the context. The base project provides a convenient shorthand utility, `useUser()`, to retrieve the current user information.
 
 ```tsx
-import { useUser } from '~/context';
+import { useUser } from '~/context.js';
 
 const UserInfo = () => {
   const user = useUser();
@@ -49,8 +49,8 @@ This component will display the authenticated user's email or render nothing if 
 To protect certain routes and ensure only authenticated users can access them, implement a route guard. This checks if the user is authenticated and redirects to the login page if not.
 
 ```tsx
-import { useUser } from '~/context';
-import { Redirect } from '~/components/Redirect';
+import { useUser } from '~/context.js';
+import { Redirect } from '~/components/Redirect.js';
 
 const UserInfo = () => {
   const user = useUser();

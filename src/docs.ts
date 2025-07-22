@@ -1,4 +1,4 @@
-import loadDocs from './utils/loadDocs';
+import loadDocs from './utils/loadDocs.js';
 
 const docs = await loadDocs();
 
