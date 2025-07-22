@@ -40,8 +40,8 @@ const commonOptions = {
 const bundleMapping = {
   name: 'path-mapping',
   setup(build) {
-    build.onResolve({ filter: /^bundle:/u }, args => ({
-      path: path.resolve(`${buildDir}/assets/${args.path.replace(/^bundle:/u, '')}`)
+    build.onResolve({ filter: /^bundle:/ }, args => ({
+      path: path.resolve(`${buildDir}/assets/${args.path.replace(/^bundle:/, '')}`)
     }));
   }
 };
