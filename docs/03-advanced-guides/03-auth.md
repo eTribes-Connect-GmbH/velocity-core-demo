@@ -49,10 +49,11 @@ This component will display the authenticated user's email or render nothing if 
 To protect certain routes and ensure only authenticated users can access them, implement a route guard. This checks if the user is authenticated and redirects to the login page if not.
 
 ```tsx
-import { useUser } from '~/context.js';
+import { useI18n, useUser } from '~/context.js';
 import { Redirect } from '~/components/Redirect.js';
 
 const UserInfo = () => {
+  const { addLocalePrefix } = useI18n();
   const user = useUser();
   if (!user) {
     return <Redirect path={addLocalePrefix('/auth/login')} />;

@@ -56,7 +56,7 @@ This step adds type definitions that allow your custom component to be recognize
 For your component to be included in the client-side JavaScript bundle, you need to import it at the top of the `src/assets/client.entry.ts` file:
 
 ```ts
-import './components/x-class-toggle';
+import './components/x-class-toggle.js';
 ```
 
 ### Using Your Web Component in JSX
