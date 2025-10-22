@@ -26,7 +26,7 @@ To create a new page in your Velocity Core application:
          <p>Here’s some data from the database:</p>
          <ul>
            {data.map(item => (
-             <li key={item.id}>{item.name}</li>
+             <li>{item.name} (#{item.id})</li>
            ))}
          </ul>
        </Layout>
